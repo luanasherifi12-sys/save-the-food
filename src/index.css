@@ -17,6 +17,10 @@
   --color-crust-500: #c8893f; /* bread crust, secondary accent */
   --color-crust-700: #8b5a2b;
 
+  --color-urgent-50: #fff1e6; /* "Duhet marrë së shpejti" */
+  --color-urgent-500: #e8590c;
+  --color-urgent-700: #b33d00;
+
   --color-ink: #26352e; /* body text */
   --color-surface: #f4f7f6; /* page background */
 
