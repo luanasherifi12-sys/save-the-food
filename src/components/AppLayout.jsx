@@ -29,7 +29,8 @@ function AppLayout({ role, onChangeRole }) {
         <Outlet />
       </main>
 
-      <nav className="fixed inset-x-0 bottom-0 border-t border-brand-100 bg-white pb-[env(safe-area-inset-bottom)]">
+      {/* z-[1000]: above the Leaflet map, which uses z-index up to ~800 */}
+      <nav className="fixed inset-x-0 bottom-0 z-[1000] border-t border-brand-100 bg-white pb-[env(safe-area-inset-bottom)]">
         <ul className="mx-auto flex max-w-md">
           {NAV_ITEMS[role].map((item) => (
             <li key={item.to} className="flex-1">
