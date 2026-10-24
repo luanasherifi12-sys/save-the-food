@@ -1,0 +1,26 @@
+# Dependencies (recreated with `npm install`)
+node_modules
+
+# Build output
+dist
+
+# Secrets – never commit
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+
+# Editor / OS
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+Thumbs.db
+
+# Vercel
+.vercel
+
+# Presentation (not code)
+*.pptx

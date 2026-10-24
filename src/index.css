@@ -1,0 +1,29 @@
+@import 'tailwindcss';
+
+/*
+  Design tokens. Every variable here becomes a Tailwind class,
+  e.g. --color-brand-900 -> bg-brand-900, text-brand-900, border-brand-900.
+  Greens come from the SAVE THE FOOD presentation; cream/crust are warm bread tones.
+*/
+@theme {
+  --color-brand-900: #063b2a; /* headings, header bar */
+  --color-brand-700: #1b5e20; /* primary buttons, map pins */
+  --color-brand-500: #1f9d63; /* accents, success */
+  --color-brand-100: #d4eedf;
+  --color-brand-50: #eaf7f0; /* light mint background */
+
+  --color-cream-50: #fbf6ec; /* warm card background */
+  --color-cream-100: #f5ebd7;
+  --color-crust-500: #c8893f; /* bread crust, secondary accent */
+  --color-crust-700: #8b5a2b;
+
+  --color-ink: #26352e; /* body text */
+  --color-surface: #f4f7f6; /* page background */
+
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+}
+
+body {
+  @apply bg-surface text-ink font-sans antialiased;
+}
