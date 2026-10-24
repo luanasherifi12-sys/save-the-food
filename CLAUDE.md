@@ -54,6 +54,10 @@ NOT in Phase 1: notifications, profile verification, AI prediction, other cities
   without changing components.
 - Data lives in localStorage. Other tabs refresh instantly via the `storage` event.
 - Sample data uses times **relative to now** (e.g. deadline in 45 min) so the app never looks empty.
+  When no donation is available anymore (published + deadline not passed), the `sample-*`
+  donations are recreated relative to now; real (non-sample) donations are kept.
+  Demo only, removed with Supabase.
+- Times are always shown in 24-hour format ("14:09"), as used in Kosovo.
 - Kg is estimated automatically from food type × portions; the business can optionally edit it.
 - Organization and Volunteer share the same screens in Phase 1 (only the role label differs).
 - Reservation expiry and urgency are computed from timestamps (no server timers).
