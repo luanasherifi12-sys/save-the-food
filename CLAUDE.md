@@ -60,6 +60,9 @@ NOT in Phase 1: notifications, profile verification, AI prediction, other cities
 - Times are always shown in 24-hour format ("14:09"), as used in Kosovo.
 - Kg is estimated automatically from food type × portions; the business can optionally edit it.
 - Organization and Volunteer share the same screens in Phase 1 (only the role label differs).
+  Without login, "my pickups" = donations whose `reservedBy` equals the current role.
+- Status changes go through store functions (`reserveDonation`, `confirmPickup`, `markDistributed`,
+  `cancelReservation`) that re-read the latest data and return `{ ok }` or `{ ok: false, reason }`.
 - Reservation expiry and urgency are computed from timestamps (no server timers).
 - Distance: browser geolocation, fallback to Prishtina center; Haversine formula.
 

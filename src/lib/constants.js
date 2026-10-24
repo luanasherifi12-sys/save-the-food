@@ -29,6 +29,7 @@ export const ROLES = {
 
 const COLLECTOR_NAV = [
   { to: '/browse', label: 'Ushqimi', icon: '🗺️' },
+  { to: '/pickups', label: 'Marrjet', icon: '🛍️' },
   { to: '/impact', label: 'Ndikimi', icon: '📊' },
 ]
 

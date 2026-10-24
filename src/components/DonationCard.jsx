@@ -1,15 +1,13 @@
 import { Link } from 'react-router-dom'
+import DonationTags from './DonationTags.jsx'
 import UrgentBadge from './UrgentBadge.jsx'
-import { ALLERGENS, FOOD_TYPES, STORAGE_TYPES } from '../lib/constants.js'
-import { formatDistance } from '../lib/distance.js'
+import { FOOD_TYPES } from '../lib/constants.js'
 import { formatClock, formatCountdown, isUrgent } from '../lib/time.js'
 
 // `now` comes from the parent page, so all cards share one clock.
 // `distanceKm` is optional: the chip is shown only when it is given.
 function DonationCard({ donation, now, distanceKm }) {
   const foodType = FOOD_TYPES[donation.foodType]
-  const storage = STORAGE_TYPES[donation.storage]
-  const hasNoAllergens = donation.allergens.includes('none')
   const urgent = isUrgent(donation, now)
 
   return (
@@ -39,27 +37,8 @@ function DonationCard({ donation, now, distanceKm }) {
         </div>
       </div>
 
-      <div className="mt-3 flex flex-wrap gap-2 text-xs font-medium">
-        {distanceKm !== undefined && (
-          <span className="rounded-full bg-brand-700 px-3 py-1 text-white">
-            📍 {formatDistance(distanceKm)}
-          </span>
-        )}
-        <span className="rounded-full bg-brand-50 px-3 py-1 text-brand-900">
-          {storage.icon} {storage.label}
-        </span>
-        <span className="rounded-full bg-brand-50 px-3 py-1 text-brand-900">
-          ≈ {donation.kg.toLocaleString('sq-AL')} kg
-        </span>
-        {hasNoAllergens ? (
-          <span className="rounded-full bg-brand-100 px-3 py-1 text-brand-900">✓ Pa alergjenë</span>
-        ) : (
-          donation.allergens.map((allergen) => (
-            <span key={allergen} className="rounded-full bg-cream-100 px-3 py-1 text-crust-700">
-              ⚠ {ALLERGENS[allergen]}
-            </span>
-          ))
-        )}
+      <div className="mt-3">
+        <DonationTags donation={donation} distanceKm={distanceKm} />
       </div>
 
       <div

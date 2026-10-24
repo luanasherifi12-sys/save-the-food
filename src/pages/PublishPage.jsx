@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import BigButton from '../components/BigButton.jsx'
 import Chip from '../components/Chip.jsx'
 import ChipGroup from '../components/ChipGroup.jsx'
+import NumberStepper from '../components/NumberStepper.jsx'
 import {
   ALLERGENS,
   DEMO_BUSINESS,
@@ -57,10 +58,6 @@ function PublishPage() {
   // Copies the form object and changes one field. React needs a NEW object to notice the change.
   function updateField(name, value) {
     setForm({ ...form, [name]: value })
-  }
-
-  function changePortions(portions) {
-    updateField('portions', Math.min(MAX_PORTIONS, Math.max(1, portions)))
   }
 
   // "Asnjë" (none) and real allergens exclude each other.
@@ -134,27 +131,13 @@ function PublishPage() {
       </FormSection>
 
       <FormSection title="Sa porcione?">
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => changePortions(form.portions - 1)}
-            aria-label="Më pak porcione"
-            className="size-14 rounded-2xl bg-white text-3xl font-bold text-brand-700 ring-1 ring-brand-100 active:scale-95"
-          >
-            −
-          </button>
-          <span className="w-20 text-center font-display text-4xl font-bold text-brand-900">
-            {form.portions}
-          </span>
-          <button
-            type="button"
-            onClick={() => changePortions(form.portions + 1)}
-            aria-label="Më shumë porcione"
-            className="size-14 rounded-2xl bg-white text-3xl font-bold text-brand-700 ring-1 ring-brand-100 active:scale-95"
-          >
-            +
-          </button>
-        </div>
+        <NumberStepper
+          value={form.portions}
+          onChange={(value) => updateField('portions', value)}
+          max={MAX_PORTIONS}
+          decreaseLabel="Më pak porcione"
+          increaseLabel="Më shumë porcione"
+        />
         <div className="mt-3">
           <ChipGroup
             options={PORTION_PRESETS}

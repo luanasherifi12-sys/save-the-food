@@ -1,7 +1,7 @@
 // The only place that reads and writes donations.
 // Later we replace the inside of these functions with Supabase; components stay the same.
 import { createSampleDonations } from '../data/sampleDonations.js'
-import { isAvailable } from './time.js'
+import { isAvailable, releaseIfExpired } from './time.js'
 
 const STORAGE_KEY = 'stf.donations'
 const CHANGE_EVENT = 'stf:donations-changed'
@@ -16,24 +16,28 @@ function withFreshSamples(donations, now) {
 }
 
 function readDonations() {
-  let donations = []
+  let saved = []
   try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY))
+    const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY))
     // Anything that is not a list (nothing saved, an old format) counts as empty.
-    if (Array.isArray(saved)) donations = saved
+    if (Array.isArray(parsed)) saved = parsed
   } catch {
     // Broken JSON -> start with an empty list.
   }
 
   const now = Date.now()
-  if (donations.some((d) => isAvailable(d, now))) {
-    return donations
-  }
+  // Expired reservations go back to "Publikuar".
+  let donations = saved.map((d) => releaseIfExpired(d, now))
+  let changed = donations.some((d, index) => d !== saved[index])
 
   // Nothing left to reserve -> bring the sample data back to life so the app never looks empty.
-  const refreshed = withFreshSamples(donations, now)
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(refreshed))
-  return refreshed
+  if (!donations.some((d) => isAvailable(d, now))) {
+    donations = withFreshSamples(donations, now)
+    changed = true
+  }
+
+  if (changed) localStorage.setItem(STORAGE_KEY, JSON.stringify(donations))
+  return donations
 }
 
 function writeDonations(donations) {
@@ -75,6 +79,58 @@ export function addDonation(fields) {
   }
   saveDonations([donation, ...getDonations()])
   return donation
+}
+
+// Reads the LATEST data, lets `change` decide, and saves only if it is allowed.
+// `change(donation, now)` returns { ok: true, donation: updated } or { ok: false, reason }.
+// Reading fresh data first matters: another tab may have reserved the same food a second ago.
+function updateDonation(id, change) {
+  const donations = getDonations()
+  const index = donations.findIndex((d) => d.id === id)
+  if (index === -1) return { ok: false, reason: 'not-found' }
+
+  const result = change(donations[index], Date.now())
+  if (!result.ok) return result
+
+  const updated = [...donations]
+  updated[index] = result.donation
+  saveDonations(updated)
+  return result
+}
+
+// Published -> Reserved
+export function reserveDonation(id, role) {
+  return updateDonation(id, (donation, now) => {
+    if (!isAvailable(donation, now)) return { ok: false, reason: 'not-available' }
+    return { ok: true, donation: { ...donation, status: 'reserved', reservedAt: now, reservedBy: role } }
+  })
+}
+
+// Reserved -> Published (the collector changed their mind)
+export function cancelReservation(id) {
+  return updateDonation(id, (donation) => {
+    if (donation.status !== 'reserved') return { ok: false, reason: 'not-reserved' }
+    return { ok: true, donation: { ...donation, status: 'published', reservedAt: null, reservedBy: null } }
+  })
+}
+
+// Reserved -> Picked up, only with the 4-digit code the business shows.
+export function confirmPickup(id, code) {
+  return updateDonation(id, (donation, now) => {
+    // An expired reservation was already released to "published" by getDonations().
+    if (donation.status !== 'reserved') return { ok: false, reason: 'not-reserved' }
+    if (code !== donation.pickupCode) return { ok: false, reason: 'wrong-code' }
+    return { ok: true, donation: { ...donation, status: 'picked_up', pickedUpAt: now } }
+  })
+}
+
+// Picked up -> Distributed, with the number of people helped (for the impact dashboard).
+export function markDistributed(id, peopleHelped) {
+  return updateDonation(id, (donation, now) => {
+    if (donation.status !== 'picked_up') return { ok: false, reason: 'not-picked-up' }
+    if (!(peopleHelped >= 1)) return { ok: false, reason: 'invalid-people' }
+    return { ok: true, donation: { ...donation, status: 'distributed', distributedAt: now, peopleHelped } }
+  })
 }
 
 export function resetDonations() {

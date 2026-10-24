@@ -1,4 +1,4 @@
-import { URGENT_MINUTES } from './constants.js'
+import { RESERVATION_MINUTES, URGENT_MINUTES } from './constants.js'
 
 const MINUTE = 60 * 1000
 
@@ -27,6 +27,18 @@ export function formatCountdown(msLeft) {
 // A donation can still be reserved: it is published and its pickup deadline has not passed.
 export function isAvailable(donation, now) {
   return donation.status === 'published' && donation.pickupDeadline > now
+}
+
+// When a reservation runs out if the food is not picked up.
+export function reservationEndsAt(donation) {
+  return donation.reservedAt + RESERVATION_MINUTES * MINUTE
+}
+
+// A reservation older than RESERVATION_MINUTES is released: the food becomes "Publikuar" again.
+// Pure function: returns the same object if nothing changes, otherwise a new one.
+export function releaseIfExpired(donation, now) {
+  if (donation.status !== 'reserved' || reservationEndsAt(donation) > now) return donation
+  return { ...donation, status: 'published', reservedAt: null, reservedBy: null }
 }
 
 // "Duhet marrë së shpejti": still available, but less than URGENT_MINUTES left.

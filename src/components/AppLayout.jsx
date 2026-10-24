@@ -26,7 +26,8 @@ function AppLayout({ role, onChangeRole }) {
 
       {/* pb-24 leaves room so the fixed bottom nav does not cover the content */}
       <main className="flex-1 pb-24">
-        <Outlet />
+        {/* Pages read the role with useOutletContext() */}
+        <Outlet context={{ role }} />
       </main>
 
       {/* z-[1000]: above the Leaflet map, which uses z-index up to ~800 */}
