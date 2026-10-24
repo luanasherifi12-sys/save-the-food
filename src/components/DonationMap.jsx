@@ -1,9 +1,13 @@
 import { useEffect } from 'react'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
-import { MapContainer, Marker, TileLayer, useMap, useMapEvents } from 'react-leaflet'
+import { CircleMarker, MapContainer, Marker, TileLayer, useMap, useMapEvents } from 'react-leaflet'
 import { FOOD_TYPES, PRISHTINA_CENTER } from '../lib/constants.js'
+import { distanceKm } from '../lib/distance.js'
 import { isUrgent } from '../lib/time.js'
+
+// Only move the map to the user if they are around Prishtina (all donations are here in Phase 1).
+const RECENTER_MAX_KM = 20
 
 // Text that goes into an HTML string must be escaped, otherwise a business name like
 // "<img onerror=...>" would run as code (XSS). React does this for us in JSX, but not here.
@@ -76,13 +80,28 @@ function KeepSelectedVisible({ donations, selectedId }) {
   return null
 }
 
+// When the user's position arrives, fly there once.
+function FlyToUser({ position }) {
+  const map = useMap()
+  const lat = position?.lat
+  const lng = position?.lng
+
+  useEffect(() => {
+    if (lat === undefined) return
+    if (distanceKm(PRISHTINA_CENTER, { lat, lng }) > RECENTER_MAX_KM) return
+    map.flyTo([lat, lng], 14)
+  }, [map, lat, lng])
+
+  return null
+}
+
 // Tapping an empty spot on the map closes the selected card (like Google Maps).
 function MapBackgroundClick({ onClick }) {
   useMapEvents({ click: onClick })
   return null // renders nothing, only listens
 }
 
-function DonationMap({ donations, now, selectedId, onSelect, className = '' }) {
+function DonationMap({ donations, now, selectedId, onSelect, userPosition, className = '' }) {
   return (
     <MapContainer
       center={[PRISHTINA_CENTER.lat, PRISHTINA_CENTER.lng]}
@@ -95,6 +114,16 @@ function DonationMap({ donations, now, selectedId, onSelect, className = '' }) {
       />
       <MapBackgroundClick onClick={() => onSelect(null)} />
       <KeepSelectedVisible donations={donations} selectedId={selectedId} />
+      <FlyToUser position={userPosition} />
+
+      {/* Blue "you are here" dot */}
+      {userPosition && (
+        <CircleMarker
+          center={[userPosition.lat, userPosition.lng]}
+          radius={9}
+          pathOptions={{ color: '#ffffff', weight: 3, fillColor: '#2563eb', fillOpacity: 1 }}
+        />
+      )}
       {donations.map((donation) => {
         const urgent = isUrgent(donation, now)
         const selected = donation.id === selectedId

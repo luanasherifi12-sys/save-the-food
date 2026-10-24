@@ -3,7 +3,14 @@ import { useNavigate } from 'react-router-dom'
 import BigButton from '../components/BigButton.jsx'
 import Chip from '../components/Chip.jsx'
 import ChipGroup from '../components/ChipGroup.jsx'
-import { ALLERGENS, DEMO_BUSINESS, FOOD_TYPES, STORAGE_TYPES, estimateKg } from '../lib/constants.js'
+import {
+  ALLERGENS,
+  DEMO_BUSINESS,
+  FOOD_TYPES,
+  STORAGE_TYPES,
+  estimateKg,
+  toOptions,
+} from '../lib/constants.js'
 import { addDonation } from '../lib/donationsStore.js'
 import { formatClock } from '../lib/time.js'
 
@@ -27,11 +34,6 @@ const EMPTY_FORM = {
   allergens: [],
   kgOverride: null, // null = use the automatic estimate
   note: '',
-}
-
-// { bread: { label, icon } } -> [{ value: 'bread', label, icon }]
-function toOptions(map) {
-  return Object.entries(map).map(([value, item]) => ({ value, label: item.label, icon: item.icon }))
 }
 
 function formatKg(kg) {

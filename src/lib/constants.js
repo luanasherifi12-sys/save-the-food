@@ -52,6 +52,11 @@ export const FOOD_TYPES = {
   other: { label: 'Tjetër', icon: '📦', kgPerPortion: 0.25 },
 }
 
+// { bread: { label, icon } } -> [{ value: 'bread', label, icon }] for ChipGroup
+export function toOptions(map) {
+  return Object.entries(map).map(([value, item]) => ({ value, label: item.label, icon: item.icon }))
+}
+
 export function estimateKg(foodType, portions) {
   const kg = FOOD_TYPES[foodType].kgPerPortion * portions
   return Math.round(kg * 10) / 10 // one decimal
