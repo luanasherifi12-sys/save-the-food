@@ -55,6 +55,28 @@ export function saveDonations(donations) {
   writeDonations(donations)
 }
 
+function generatePickupCode() {
+  return String(Math.floor(Math.random() * 10000)).padStart(4, '0') // "0000"–"9999"
+}
+
+// Creates a new published donation from the form fields and saves it.
+export function addDonation(fields) {
+  const donation = {
+    id: crypto.randomUUID(),
+    createdAt: Date.now(),
+    status: 'published',
+    pickupCode: generatePickupCode(),
+    reservedAt: null,
+    reservedBy: null,
+    pickedUpAt: null,
+    distributedAt: null,
+    peopleHelped: null,
+    ...fields,
+  }
+  saveDonations([donation, ...getDonations()])
+  return donation
+}
+
 export function resetDonations() {
   writeDonations(withFreshSamples(readDonations(), Date.now()))
 }
