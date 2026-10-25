@@ -40,12 +40,18 @@ function ImpactPage() {
   const maxPortions = Math.max(...impact.byFoodType.map((item) => item.portions), 1)
 
   return (
-    <section className="flex flex-col gap-4 p-4">
-      <h1 className="font-display text-2xl font-bold text-brand-900">Ndikimi ynë</h1>
+    // Computer: a 2-column grid; full-width rows use lg:col-span-2
+    <section className="flex flex-col gap-4 p-4 lg:grid lg:grid-cols-2 lg:items-start lg:gap-6 lg:p-6">
+      <h1 className="font-display text-2xl font-bold text-brand-900 lg:col-span-2">Ndikimi ynë</h1>
 
-      <SegmentedControl options={SCOPES} value={scope} onChange={setScope} />
+      <SegmentedControl
+        options={SCOPES}
+        value={scope}
+        onChange={setScope}
+        className="md:max-w-md lg:col-span-2"
+      />
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4 lg:col-span-2 lg:gap-4">
         <StatTile
           Icon={UtensilsCrossed}
           value={formatNumber(impact.portions)}
@@ -65,7 +71,7 @@ function ImpactPage() {
       </div>
 
       {impact.inProgressPortions > 0 && (
-        <p className="rounded-2xl bg-brand-50 p-3 text-sm text-brand-900">
+        <p className="rounded-2xl bg-brand-50 p-3 text-sm text-brand-900 lg:col-span-2">
           <InlineIcon Icon={Truck} />
           Edhe <strong>{formatNumber(impact.inProgressPortions)} porcione</strong> janë marrë dhe po
           shpërndahen.
@@ -73,7 +79,7 @@ function ImpactPage() {
       )}
 
       {impact.completedCount === 0 ? (
-        <p className="rounded-2xl bg-white p-6 text-center text-ink/70">
+        <p className="rounded-2xl bg-white p-6 text-center text-ink/70 lg:col-span-2">
           Ende asnjë donacion i shpërndarë. Numrat rriten sapo shënohet shpërndarja e parë.
         </p>
       ) : (
@@ -125,7 +131,7 @@ function ImpactPage() {
         </>
       )}
 
-      <p className="text-center text-xs text-ink/50">
+      <p className="text-center text-xs text-ink/50 lg:col-span-2">
         Llogaritet nga donacionet me status “Shpërndarë”. Personat i shënon organizata ose vullnetari.
       </p>
     </section>

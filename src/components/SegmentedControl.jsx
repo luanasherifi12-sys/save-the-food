@@ -1,9 +1,9 @@
 // Two or more buttons joined together, exactly one selected (e.g. Hartë | Listë).
 // options: [{ value, label, Icon? }]
-function SegmentedControl({ options, value, onChange }) {
+function SegmentedControl({ options, value, onChange, className = '' }) {
   return (
     <div
-      className="grid gap-1 rounded-2xl bg-white p-1 ring-1 ring-brand-100"
+      className={`grid gap-1 rounded-2xl bg-white p-1 ring-1 ring-brand-100 ${className}`}
       style={{ gridTemplateColumns: `repeat(${options.length}, 1fr)` }}
     >
       {options.map((option) => (

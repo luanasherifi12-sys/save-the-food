@@ -24,7 +24,7 @@ function PickupsPage() {
     .sort((a, b) => b.distributedAt - a.distributedAt)
 
   return (
-    <section className="flex flex-col gap-4 p-4">
+    <section className="flex flex-col gap-4 p-4 lg:p-6">
       <h1 className="font-display text-2xl font-bold text-brand-900">Marrjet e mia</h1>
 
       {active.length === 0 ? (
@@ -35,7 +35,7 @@ function PickupsPage() {
           </Link>
         </div>
       ) : (
-        <ul className="flex flex-col gap-3">
+        <ul className="flex flex-col gap-3 md:grid md:grid-cols-2 lg:grid-cols-3">
           {active.map((donation) => (
             <li key={donation.id}>
               <DonationRow donation={donation}>
@@ -63,7 +63,7 @@ function PickupsPage() {
       {distributed.length > 0 && (
         <>
           <h2 className="mt-2 text-sm font-semibold tracking-wide text-ink/60 uppercase">Të shpërndara</h2>
-          <ul className="flex flex-col gap-2">
+          <ul className="flex flex-col gap-2 md:grid md:grid-cols-2 md:gap-3 lg:grid-cols-3">
             {distributed.map((donation) => (
               <li key={donation.id}>
                 <DonationRow donation={donation}>

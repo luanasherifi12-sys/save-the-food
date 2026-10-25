@@ -27,6 +27,11 @@ picks it up (confirmed with a code) → distributes it.
 
 ## Design
 - Mobile-first: used mostly on phones by workers with busy hands.
+- Responsive with Tailwind breakpoints: phone < 768 (no prefix), tablet `md:` 768–1023,
+  computer `lg:` ≥ 1024. The phone layout must not change: new styles go ONLY behind `md:`/`lg:`.
+  Tablet keeps the bottom nav; computer has the nav in the header and content max 1200px.
+  Use `useMediaQuery(DESKTOP_QUERY)` only when JavaScript must behave differently (e.g. the
+  Leaflet map cannot be hidden with CSS). `contents` on a wrapper keeps the phone layout unchanged.
 - Big buttons, one main action per screen, minimal typing (chips/buttons instead of inputs).
 - Colors (from the presentation): `brand-900` #063B2A, `brand-700` #1B5E20 (primary),
   `brand-500` #1F9D63, `brand-50` #EAF7F0, `surface` #F4F7F6, `ink` #26352E.

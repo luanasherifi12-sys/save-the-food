@@ -19,7 +19,7 @@ const URGENCY_OPTIONS = [
 
 // "Filtra" button that opens a panel with chip groups.
 // Whether the panel is open is only needed here, so that state lives here (not in the page).
-function FilterBar({ filters, onChange }) {
+function FilterBar({ filters, onChange, className = '' }) {
   const [open, setOpen] = useState(false)
   const activeCount = Object.values(filters).filter((value) => value !== 'all').length
 
@@ -28,7 +28,7 @@ function FilterBar({ filters, onChange }) {
   }
 
   return (
-    <div>
+    <div className={className}>
       <div className="flex gap-2">
         <button
           type="button"

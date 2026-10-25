@@ -1,11 +1,12 @@
 import { List, MapIcon, MapPin, Pointer, RotateCcw, X } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import DonationCard from '../components/DonationCard.jsx'
 import DonationMap from '../components/DonationMap.jsx'
 import FilterBar, { DEFAULT_FILTERS } from '../components/FilterBar.jsx'
 import InlineIcon from '../components/InlineIcon.jsx'
 import SegmentedControl from '../components/SegmentedControl.jsx'
 import { useDonations } from '../hooks/useDonations.js'
+import { DESKTOP_QUERY, useMediaQuery } from '../hooks/useMediaQuery.js'
 import { useNow } from '../hooks/useNow.js'
 import { useUserLocation } from '../hooks/useUserLocation.js'
 import { PRISHTINA_CENTER } from '../lib/constants.js'
@@ -25,6 +26,9 @@ function BrowsePage() {
   const [view, setView] = useState('map')
   const [selectedId, setSelectedId] = useState(null)
   const [filters, setFilters] = useState(DEFAULT_FILTERS)
+  const isDesktop = useMediaQuery(DESKTOP_QUERY)
+  const listRef = useRef(null) // the <ul> of cards, to scroll a card into view
+  const scrollToCardRef = useRef(false) // true right after a pin click
 
   // Distances are measured from the user, or from the center of Prishtina if we don't know where they are.
   const origin = location.position ?? PRISHTINA_CENTER
@@ -48,9 +52,29 @@ function BrowsePage() {
   // Derived, not stored: if the selected food expires or is filtered out, this simply becomes null.
   const selected = visible.find((d) => d.id === selectedId) ?? null
 
+  // Computer: map and list side by side. Phone/tablet: one of them, chosen with the switch.
+  const showMap = isDesktop || view === 'map'
+  const showList = isDesktop || view === 'list'
+
+  // A pin was clicked on the computer -> scroll its card into view in the list.
+  // (Not when the mouse is over a card: that card is already visible.)
+  function selectFromMap(id) {
+    scrollToCardRef.current = id !== null
+    setSelectedId(id)
+  }
+
+  useEffect(() => {
+    if (!isDesktop || !selectedId || !scrollToCardRef.current) return
+    scrollToCardRef.current = false
+    listRef.current
+      ?.querySelector(`[data-id="${selectedId}"]`)
+      ?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+  }, [selectedId, isDesktop])
+
   return (
-    <section className="flex flex-col gap-3 p-4">
-      <div>
+    // lg: a grid with the map on the left and the list (26rem) on the right
+    <section className="flex flex-col gap-3 p-4 lg:grid lg:grid-cols-[minmax(0,1fr)_26rem] lg:items-start lg:gap-x-6 lg:p-6">
+      <div className="lg:col-span-2">
         <h1 className="font-display text-2xl font-bold text-brand-900">Ushqimi afër teje</h1>
         <p className="mt-1 text-ink/70">
           {visible.length} {visible.length === 1 ? 'donacion' : 'donacione'} në dispozicion
@@ -64,61 +88,76 @@ function BrowsePage() {
         </p>
       </div>
 
-      <LocationNotice location={location} />
+      <LocationNotice location={location} className="lg:col-span-2" />
 
-      {/* Map / list switch */}
-      <SegmentedControl options={VIEWS} value={view} onChange={setView} />
+      {/* Map / list switch – not needed on the computer, where both are shown */}
+      <SegmentedControl options={VIEWS} value={view} onChange={setView} className="lg:hidden" />
 
-      <FilterBar filters={filters} onChange={setFilters} />
+      <FilterBar filters={filters} onChange={setFilters} className="lg:col-span-2" />
 
-      {view === 'map' ? (
-        // relative: the floating panel below is positioned inside this box
-        <div className="relative">
+      {showMap && (
+        // relative: the floating panel below is positioned inside this box.
+        // Computer: the map stays in place (sticky) while the list scrolls.
+        <div className="relative lg:sticky lg:top-4">
           {/* Fills the screen between the top part and the bottom navigation */}
           <DonationMap
             donations={visible}
             now={now}
             selectedId={selectedId}
-            onSelect={setSelectedId}
+            onSelect={selectFromMap}
             userPosition={location.position}
-            className="h-[calc(100svh-23rem)] min-h-80"
+            panelCoversBottom={!isDesktop}
+            className="h-[calc(100svh-23rem)] min-h-80 lg:h-[calc(100svh-6rem)]"
           />
 
-          {/* Floating panel over the bottom of the map. z-[1000]: above the Leaflet layers */}
-          <div className="absolute inset-x-3 bottom-3 z-[1000]">
-            {selected ? (
-              <div className="relative rounded-3xl shadow-2xl">
-                <DonationCard donation={selected} now={now} distanceKm={distanceTo(selected)} />
-                <button
-                  type="button"
-                  onClick={() => setSelectedId(null)}
-                  aria-label="Mbyll"
-                  className="absolute -top-3 right-3 flex size-10 items-center justify-center rounded-full bg-white text-lg font-bold text-ink shadow-md ring-1 ring-brand-100"
-                >
-                  <X className="size-5" />
-                </button>
-              </div>
-            ) : (
-              visible.length > 0 && (
-                <p className="mx-auto w-fit rounded-full bg-white/95 px-4 py-2 text-sm font-medium text-ink/70 shadow-md">
-                  <InlineIcon Icon={Pointer} />Prek një pin për të parë detajet
-                </p>
-              )
-            )}
-          </div>
+          {/* Floating panel over the bottom of the map (phone/tablet; the computer has the list).
+              z-[1000]: above the Leaflet layers */}
+          {!isDesktop && (
+            <div className="absolute inset-x-3 bottom-3 z-[1000] md:right-auto md:w-96">
+              {selected ? (
+                <div className="relative rounded-3xl shadow-2xl">
+                  <DonationCard donation={selected} now={now} distanceKm={distanceTo(selected)} />
+                  <button
+                    type="button"
+                    onClick={() => setSelectedId(null)}
+                    aria-label="Mbyll"
+                    className="absolute -top-3 right-3 flex size-10 items-center justify-center rounded-full bg-white text-lg font-bold text-ink shadow-md ring-1 ring-brand-100"
+                  >
+                    <X className="size-5" />
+                  </button>
+                </div>
+              ) : (
+                visible.length > 0 && (
+                  <p className="mx-auto w-fit rounded-full bg-white/95 px-4 py-2 text-sm font-medium text-ink/70 shadow-md">
+                    <InlineIcon Icon={Pointer} />
+                    Prek një pin për të parë detajet
+                  </p>
+                )
+              )}
+            </div>
+          )}
         </div>
-      ) : (
-        <ul className="flex flex-col gap-3">
+      )}
+
+      {showList && (
+        // tablet: 2 columns; computer: 1 column next to the map
+        <ul ref={listRef} className="flex flex-col gap-3 md:grid md:grid-cols-2 lg:grid-cols-1">
           {visible.map((donation) => (
-            <li key={donation.id}>
-              <DonationCard donation={donation} now={now} distanceKm={distanceTo(donation)} />
+            <li key={donation.id} data-id={donation.id}>
+              <DonationCard
+                donation={donation}
+                now={now}
+                distanceKm={distanceTo(donation)}
+                highlighted={isDesktop && donation.id === selectedId}
+                onPointerEnter={isDesktop ? () => setSelectedId(donation.id) : undefined}
+              />
             </li>
           ))}
         </ul>
       )}
 
       {visible.length === 0 && (
-        <div className="rounded-2xl bg-white p-6 text-center text-ink/70">
+        <div className="rounded-2xl bg-white p-6 text-center text-ink/70 lg:col-start-2">
           {isFiltered ? (
             <>
               <p>Asnjë donacion me këta filtra.</p>
@@ -139,7 +178,7 @@ function BrowsePage() {
       <button
         type="button"
         onClick={resetDonations}
-        className="mt-5 w-full py-3 text-sm font-medium text-ink/50 underline"
+        className="mt-5 w-full py-3 text-sm font-medium text-ink/50 underline lg:col-span-2"
       >
         <InlineIcon Icon={RotateCcw} />Rivendos të dhënat shembull
       </button>
@@ -148,13 +187,18 @@ function BrowsePage() {
 }
 
 // One line that says where distances are measured from, with a button to use the real location.
-function LocationNotice({ location }) {
+function LocationNotice({ location, className = '' }) {
   if (location.status === 'granted') {
-    return <p className="text-sm font-medium text-brand-700"><InlineIcon Icon={MapPin} />Distancat nga vendndodhja jote</p>
+    return (
+      <p className={`text-sm font-medium text-brand-700 ${className}`}>
+        <InlineIcon Icon={MapPin} />
+        Distancat nga vendndodhja jote
+      </p>
+    )
   }
 
   return (
-    <div className="flex items-center justify-between gap-2 text-sm">
+    <div className={`flex items-center justify-between gap-2 text-sm md:justify-start md:gap-4 ${className}`}>
       <span className="text-ink/70">
         <InlineIcon Icon={MapPin} />Distancat nga qendra e Prishtinës
         {location.status === 'error' && (

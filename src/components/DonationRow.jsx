@@ -11,7 +11,7 @@ function DonationRow({ donation, subtitle = donation.businessName, muted = false
   return (
     <Link
       to={`/donations/${donation.id}`}
-      className={`flex items-center gap-3 rounded-3xl bg-white p-4 ring-1 ring-brand-100 active:scale-[0.98] ${
+      className={`flex h-full items-center gap-3 rounded-3xl bg-white p-4 ring-1 ring-brand-100 active:scale-[0.98] ${
         muted ? 'opacity-60' : ''
       }`}
     >

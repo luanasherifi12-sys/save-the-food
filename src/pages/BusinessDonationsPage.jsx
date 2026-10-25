@@ -66,7 +66,7 @@ function BusinessDonationsPage() {
   })).filter((group) => group.items.length > 0)
 
   return (
-    <section className="flex flex-col gap-4 p-4">
+    <section className="flex flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <div>
         <h1 className="font-display text-2xl font-bold text-brand-900">Donacionet e mia</h1>
         <p className="mt-1 text-sm text-ink/70">
@@ -89,7 +89,8 @@ function BusinessDonationsPage() {
           <h2 className="text-sm font-semibold tracking-wide text-ink/60 uppercase">
             {group.title} ({group.items.length})
           </h2>
-          <ul className="flex flex-col gap-3">
+          {/* tablet: 2 columns, computer: 3 */}
+          <ul className="flex flex-col gap-3 md:grid md:grid-cols-2 lg:grid-cols-3">
             {group.items.map((donation) => (
               <li key={donation.id}>
                 <GroupItem groupKey={group.key} donation={donation} now={now} />

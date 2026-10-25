@@ -15,7 +15,7 @@ function ReservedCodeCard({ donation, now, showFood = false }) {
   const digits = donation.pickupCode.split('') // "4821" -> ['4', '8', '2', '1']
 
   return (
-    <div className="rounded-3xl bg-cream-50 p-4 ring-2 ring-crust-500">
+    <div className="h-full rounded-3xl bg-cream-50 p-4 ring-2 ring-crust-500">
       {showFood && (
         <Link to={`/donations/${donation.id}`} className="mb-3 flex min-h-11 items-center gap-3">
           <FoodIcon foodType={donation.foodType} size="sm" />

@@ -76,11 +76,12 @@ function DonationDetailPage() {
   const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${donation.lat},${donation.lng}`
 
   return (
-    <section className="flex flex-col gap-4 p-4">
+    // Computer: two columns – the food info on the left, status and actions on the right
+    <section className="flex flex-col gap-4 p-4 lg:grid lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:items-start lg:gap-6 lg:p-6">
       <button
         type="button"
         onClick={() => navigate(-1)}
-        className="flex min-h-11 w-fit items-center gap-1 pr-4 text-sm font-semibold text-brand-700"
+        className="flex min-h-11 w-fit items-center gap-1 pr-4 text-sm font-semibold text-brand-700 lg:col-span-2"
       >
         <ArrowLeft className="size-4" /> Kthehu
       </button>
@@ -120,46 +121,50 @@ function DonationDetailPage() {
         </a>
       </div>
 
-      <StatusSteps status={donation.status} />
+      {/* Right column on the computer. On phone/tablet `contents` makes this box disappear
+          from the layout, so its children stack exactly as before. */}
+      <div className="contents lg:sticky lg:top-4 lg:flex lg:flex-col lg:gap-4">
+        <StatusSteps status={donation.status} />
 
-      {/* role="alert": screen readers read the message as soon as it appears */}
-      {error && (
-        <p role="alert" className="rounded-2xl bg-urgent-50 p-3 font-medium text-urgent-700">
-          {error}
-        </p>
-      )}
+        {/* role="alert": screen readers read the message as soon as it appears */}
+        {error && (
+          <p role="alert" className="rounded-2xl bg-urgent-50 p-3 font-medium text-urgent-700">
+            {error}
+          </p>
+        )}
 
-      {donation.status === 'published' && (
-        <PublishedActions
-          donation={donation}
-          now={now}
-          canReserve={isCollector}
-          onReserve={() => handleResult(reserveDonation(donation.id, role))}
-        />
-      )}
+        {donation.status === 'published' && (
+          <PublishedActions
+            donation={donation}
+            now={now}
+            canReserve={isCollector}
+            onReserve={() => handleResult(reserveDonation(donation.id, role))}
+          />
+        )}
 
-      {/* The business that published the food sees the pickup code instead of the collector's form */}
-      {donation.status === 'reserved' && isOwnBusiness && <ReservedCodeCard donation={donation} now={now} />}
+        {/* The business that published the food sees the pickup code instead of the collector's form */}
+        {donation.status === 'reserved' && isOwnBusiness && <ReservedCodeCard donation={donation} now={now} />}
 
-      {donation.status === 'reserved' && !isOwnBusiness && (
-        <ReservedActions
-          donation={donation}
-          now={now}
-          isMine={isMine}
-          onConfirm={(code) => handleResult(confirmPickup(donation.id, code))}
-          onCancel={() => handleResult(cancelReservation(donation.id))}
-        />
-      )}
+        {donation.status === 'reserved' && !isOwnBusiness && (
+          <ReservedActions
+            donation={donation}
+            now={now}
+            isMine={isMine}
+            onConfirm={(code) => handleResult(confirmPickup(donation.id, code))}
+            onCancel={() => handleResult(cancelReservation(donation.id))}
+          />
+        )}
 
-      {donation.status === 'picked_up' && (
-        <PickedUpActions
-          donation={donation}
-          isMine={isMine}
-          onDistribute={(people) => handleResult(markDistributed(donation.id, people))}
-        />
-      )}
+        {donation.status === 'picked_up' && (
+          <PickedUpActions
+            donation={donation}
+            isMine={isMine}
+            onDistribute={(people) => handleResult(markDistributed(donation.id, people))}
+          />
+        )}
 
-      {donation.status === 'distributed' && <DistributedSummary donation={donation} />}
+        {donation.status === 'distributed' && <DistributedSummary donation={donation} />}
+      </div>
     </section>
   )
 }

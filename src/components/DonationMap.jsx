@@ -86,9 +86,10 @@ function getPinIcon(donation, urgent, selected) {
   return iconCache.get(key)
 }
 
-// When a pin is selected, move the map so the pin sits in the upper part,
-// above the floating card that covers the bottom of the map.
-function KeepSelectedVisible({ donations, selectedId }) {
+// When a pin is selected, make sure it can be seen.
+// Phone/tablet: move it to the upper part, above the floating card that covers the bottom of the map.
+// Computer (no floating card): only move the map if the pin is outside the visible area.
+function KeepSelectedVisible({ donations, selectedId, panelCoversBottom }) {
   const map = useMap()
   const selected = donations.find((d) => d.id === selectedId)
   const lat = selected?.lat
@@ -97,11 +98,16 @@ function KeepSelectedVisible({ donations, selectedId }) {
   // Runs only when the selected position changes, not on every countdown tick.
   useEffect(() => {
     if (lat === undefined) return
+    if (!panelCoversBottom) {
+      // pad(-0.1): treat pins very close to the edge as "outside" too
+      if (!map.getBounds().pad(-0.1).contains([lat, lng])) map.panTo([lat, lng])
+      return
+    }
     const zoom = map.getZoom()
     const pinPoint = map.project([lat, lng], zoom) // map coordinates -> pixels
     const newCenter = pinPoint.add([0, map.getSize().y * 0.25]) // center 25% of the height below the pin
     map.panTo(map.unproject(newCenter, zoom))
-  }, [map, lat, lng])
+  }, [map, lat, lng, panelCoversBottom])
 
   return null
 }
@@ -127,7 +133,15 @@ function MapBackgroundClick({ onClick }) {
   return null // renders nothing, only listens
 }
 
-function DonationMap({ donations, now, selectedId, onSelect, userPosition, className = '' }) {
+function DonationMap({
+  donations,
+  now,
+  selectedId,
+  onSelect,
+  userPosition,
+  panelCoversBottom = true,
+  className = '',
+}) {
   return (
     <MapContainer
       center={[PRISHTINA_CENTER.lat, PRISHTINA_CENTER.lng]}
@@ -139,7 +153,11 @@ function DonationMap({ donations, now, selectedId, onSelect, userPosition, class
         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <MapBackgroundClick onClick={() => onSelect(null)} />
-      <KeepSelectedVisible donations={donations} selectedId={selectedId} />
+      <KeepSelectedVisible
+        donations={donations}
+        selectedId={selectedId}
+        panelCoversBottom={panelCoversBottom}
+      />
       <FlyToUser position={userPosition} />
 
       {/* Blue "you are here" dot */}

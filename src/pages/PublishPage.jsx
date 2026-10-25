@@ -116,7 +116,8 @@ function PublishPage() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-7 p-4">
+    // Tablet/computer: a centered column, wider than on the phone
+    <form onSubmit={handleSubmit} className="flex flex-col gap-7 p-4 md:mx-auto md:w-full md:max-w-2xl md:p-6">
       <div>
         <h1 className="font-display text-2xl font-bold text-brand-900">Publiko ushqimin</h1>
         <p className="mt-1 text-sm text-ink/70">
@@ -240,9 +241,10 @@ function PublishPage() {
         />
       </FormSection>
 
-      {/* Stays visible above the bottom navigation while scrolling.
-          The gradient background fades out the content scrolling underneath. */}
-      <div className="sticky bottom-16 -mx-4 bg-linear-to-t from-surface from-70% to-surface/0 px-4 pt-8 pb-4">
+      {/* Phone/tablet: stays visible above the bottom navigation while scrolling.
+          The gradient background fades out the content scrolling underneath.
+          Computer: a normal button at the end of the form (no bottom navigation there). */}
+      <div className="sticky bottom-16 -mx-4 bg-linear-to-t from-surface from-70% to-surface/0 px-4 pt-8 pb-4 md:-mx-6 md:px-6 lg:static lg:mx-0 lg:bg-none lg:px-0 lg:pt-0 lg:pb-0">
         <BigButton type="submit" disabled={missing.length > 0}>
           {missing.length > 0 ? `Zgjidh: ${missing.join(', ')}` : 'Publiko ushqimin'}
         </BigButton>
@@ -256,7 +258,7 @@ function PublishSuccess({ donation, seconds, onPublishAnother }) {
   const foodType = FOOD_TYPES[donation.foodType]
 
   return (
-    <section className="flex flex-col items-center gap-4 p-6 pt-12 text-center">
+    <section className="flex flex-col items-center gap-4 p-6 pt-12 text-center md:mx-auto md:max-w-md">
       <span className="flex size-24 items-center justify-center rounded-full bg-brand-100 text-brand-700">
         <Check className="size-12" strokeWidth={2.5} />
       </span>
