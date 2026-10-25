@@ -66,6 +66,13 @@ NOT in Phase 1: notifications, profile verification, AI prediction, other cities
 - Reservation expiry and urgency are computed from timestamps (no server timers).
 - Distance: browser geolocation, fallback to Prishtina center; Haversine formula.
 
+## Deployment
+- GitHub: https://github.com/luanasherifi12-sys/save-the-food (public)
+- Live: https://save-the-food-tau.vercel.app (Vercel project `save-the-food`)
+- Vercel is connected to the GitHub repo: every push to `main` deploys automatically.
+- `vercel.json` rewrites all paths to `index.html` so deep links like `/donations/:id` work.
+- `.env.local` (Vercel token) is created by the Vercel CLI and must stay out of Git.
+
 ## Commands
 - `npm run dev` – start dev server (http://localhost:5173)
 - `npm run build` – production build

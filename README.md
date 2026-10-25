@@ -9,7 +9,7 @@
 Platformë civic-tech në Prishtinë që lidh furrat, restorantet, marketet dhe hotelet
 që kanë ushqim të tepërt me organizatat humanitare dhe vullnetarët, para se ushqimi të humbasë.
 
-🌐 **Demo:** _(linku shtohet pas publikimit)_
+🌐 **Provoje live:** [save-the-food-tau.vercel.app](https://save-the-food-tau.vercel.app)
 
 </div>
 
