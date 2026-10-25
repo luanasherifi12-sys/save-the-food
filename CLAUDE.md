@@ -33,6 +33,11 @@ picks it up (confirmed with a code) → distributes it.
   Warm bread tones: `cream-50/100`, `crust-500/700`.
 - Fonts: Inter (text), Space Grotesk (headings, class `font-display`).
 - Map pins: green drop pins with food icons (see mockup in the presentation).
+- Icons: lucide-react SVG components, no emoji in the UI. Constants store the component as `Icon`
+  (render `<item.Icon className="size-5" />`). Use `FoodIcon` for food types and `InlineIcon`
+  for an icon inside a line of text. Map pins get SVG text generated once at load (see DonationMap).
+- PWA: `public/manifest.webmanifest` + icons in `public/icons/` (source: `docs/pwa-icon/icon.html`).
+  No service worker (no offline mode). Headers use `env(safe-area-inset-top)` for phones with a notch.
 
 ## Phase 1 scope (build only this)
 1. Business publishes food in under 60 seconds: type (bread, pastry, cooked meal,

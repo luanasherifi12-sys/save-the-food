@@ -1,11 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <!-- Green map pin with a white wheat ear, like the pins in the app -->
+  <!-- Green map pin with a white ear of wheat, like the pins in the app -->
   <path d="M32 2C19.3 2 9 12.1 9 24.6 9 41.5 32 62 32 62s23-20.5 23-37.4C55 12.1 44.7 2 32 2z" fill="#1b5e20"/>
-  <g fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round">
-    <path d="M32 40V14"/>
-    <path d="M32 22c-4-1-6-4-6-7 4 0 6 3 6 7z" fill="#ffffff"/>
-    <path d="M32 22c4-1 6-4 6-7-4 0-6 3-6 7z" fill="#ffffff"/>
-    <path d="M32 30c-4-1-6-4-6-7 4 0 6 3 6 7z" fill="#ffffff"/>
-    <path d="M32 30c4-1 6-4 6-7-4 0-6 3-6 7z" fill="#ffffff"/>
+  <g fill="#ffffff">
+    <rect x="30.6" y="20" width="2.8" height="25" rx="1.4"/>
+    <ellipse cx="32" cy="14.5" rx="2.6" ry="4.4"/>
+    <ellipse cx="28.4" cy="22" rx="2.4" ry="4.3" transform="rotate(-35 28.4 22)"/>
+    <ellipse cx="35.6" cy="22" rx="2.4" ry="4.3" transform="rotate(35 35.6 22)"/>
+    <ellipse cx="28.4" cy="29" rx="2.4" ry="4.3" transform="rotate(-35 28.4 29)"/>
+    <ellipse cx="35.6" cy="29" rx="2.4" ry="4.3" transform="rotate(35 35.6 29)"/>
+    <ellipse cx="28.4" cy="36" rx="2.4" ry="4.3" transform="rotate(-35 28.4 36)"/>
+    <ellipse cx="35.6" cy="36" rx="2.4" ry="4.3" transform="rotate(35 35.6 36)"/>
   </g>
 </svg>

@@ -1,0 +1,19 @@
+{
+  "name": "Save the Food",
+  "short_name": "Save the Food",
+  "description": "Lidh bizneset me ushqim të tepërt me organizatat humanitare dhe vullnetarët në Prishtinë.",
+  "lang": "sq",
+  "id": "/",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f4f7f6",
+  "theme_color": "#063b2a",
+  "categories": ["food", "social", "utilities"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

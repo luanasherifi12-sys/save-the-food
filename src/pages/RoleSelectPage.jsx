@@ -9,7 +9,7 @@ function RoleSelectPage({ role, onSelectRole }) {
 
   return (
     <div className="mx-auto flex min-h-svh max-w-md flex-col">
-      <header className="rounded-b-[2.5rem] bg-brand-900 px-6 pt-12 pb-10 text-white">
+      <header className="rounded-b-[2.5rem] bg-brand-900 px-6 pt-[calc(3rem+env(safe-area-inset-top))] pb-10 text-white">
         <p className="text-xs font-semibold tracking-widest text-brand-100 uppercase">
           Platforma civic-tech · Prishtinë
         </p>

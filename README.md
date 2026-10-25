@@ -49,6 +49,7 @@ Teprica ekziston dhe nevoja ekziston. Mungon një **lidhje e shpejtë** mes tyre
 - 📊 **Paneli i ndikimit:** porcione të shpëtuara, kg, donacione të përfunduara dhe persona të ndihmuar.
 - 👤 **Tri role:** Biznes, Organizatë, Vullnetar (pa login të vërtetë në këtë fazë).
 - 📱 **Mobile-first:** butona të mëdhenj për duar të zëna, një veprim kryesor për ekran.
+- 📲 **Instalohet si app (PWA):** shtoje në ekranin kryesor të telefonit dhe hapet pa shiritin e shfletuesit.
 
 ## Teknologjitë
 

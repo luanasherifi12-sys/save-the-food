@@ -13,7 +13,8 @@ function AppLayout({ role, onChangeRole }) {
 
   return (
     <div className="mx-auto flex min-h-svh max-w-md flex-col">
-      <header className="flex items-center justify-between bg-brand-900 px-4 py-3 text-white">
+      {/* Extra top padding under the phone's status bar / notch when installed as an app */}
+      <header className="flex items-center justify-between bg-brand-900 px-4 pt-[max(0.75rem,env(safe-area-inset-top))] pb-3 text-white">
         <span className="font-display text-lg font-bold">Save the Food</span>
         <button
           type="button"

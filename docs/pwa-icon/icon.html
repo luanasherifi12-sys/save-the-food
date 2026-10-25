@@ -1,0 +1,47 @@
+<!doctype html>
+<!--
+  Source of the phone home-screen icons in public/icons/.
+  Open with ?size=512&pin=0.62 and take a screenshot of exactly size×size pixels.
+  `pin` = how much of the height the pin uses (smaller for "maskable" icons,
+  because Android may cut the icon into a circle).
+-->
+<html>
+<head>
+<meta charset="utf-8" />
+<style>
+  * { margin: 0; }
+  html, body { overflow: hidden; background: #fbf6ec; }
+  svg { display: block; }
+</style>
+</head>
+<body>
+<script>
+  const params = new URLSearchParams(location.search)
+  const size = Number(params.get('size') ?? 512)
+  const pin = Number(params.get('pin') ?? 0.62)
+  // The pin from favicon.svg is drawn in a 64×64 box; scale it and center it.
+  const scale = (size * pin) / 64
+  const offset = (size - 64 * scale) / 2
+  document.body.innerHTML = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+      <rect width="${size}" height="${size}" fill="#fbf6ec"/>
+      <!-- soft shadow under the pin -->
+      <ellipse cx="${size / 2}" cy="${offset + 62 * scale}" rx="${11 * scale}" ry="${2.2 * scale}" fill="#c8893f" opacity=".25"/>
+      <g transform="translate(${offset} ${offset}) scale(${scale})">
+        <path d="M32 2C19.3 2 9 12.1 9 24.6 9 41.5 32 62 32 62s23-20.5 23-37.4C55 12.1 44.7 2 32 2z" fill="#1b5e20"/>
+        <!-- ear of wheat: stem, top grain and three pairs of grains (same as public/favicon.svg) -->
+        <g fill="#ffffff">
+          <rect x="30.6" y="20" width="2.8" height="25" rx="1.4"/>
+          <ellipse cx="32" cy="14.5" rx="2.6" ry="4.4"/>
+          <ellipse cx="28.4" cy="22" rx="2.4" ry="4.3" transform="rotate(-35 28.4 22)"/>
+          <ellipse cx="35.6" cy="22" rx="2.4" ry="4.3" transform="rotate(35 35.6 22)"/>
+          <ellipse cx="28.4" cy="29" rx="2.4" ry="4.3" transform="rotate(-35 28.4 29)"/>
+          <ellipse cx="35.6" cy="29" rx="2.4" ry="4.3" transform="rotate(35 35.6 29)"/>
+          <ellipse cx="28.4" cy="36" rx="2.4" ry="4.3" transform="rotate(-35 28.4 36)"/>
+          <ellipse cx="35.6" cy="36" rx="2.4" ry="4.3" transform="rotate(35 35.6 36)"/>
+        </g>
+      </g>
+    </svg>`
+</script>
+</body>
+</html>
