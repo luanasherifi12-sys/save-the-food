@@ -1,5 +1,7 @@
+import { CircleCheck, Clock, Store, Users } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import DonationRow from '../components/DonationRow.jsx'
+import InlineIcon from '../components/InlineIcon.jsx'
 import ReservedCodeCard from '../components/ReservedCodeCard.jsx'
 import UrgentBadge from '../components/UrgentBadge.jsx'
 import { useDonations } from '../hooks/useDonations.js'
@@ -68,7 +70,8 @@ function BusinessDonationsPage() {
       <div>
         <h1 className="font-display text-2xl font-bold text-brand-900">Donacionet e mia</h1>
         <p className="mt-1 text-sm text-ink/70">
-          🏪 {DEMO_BUSINESS.name} · {mine.length} {mine.length === 1 ? 'donacion' : 'donacione'}
+          <InlineIcon Icon={Store} />
+          {DEMO_BUSINESS.name} · {mine.length} {mine.length === 1 ? 'donacion' : 'donacione'}
         </p>
       </div>
 
@@ -112,7 +115,8 @@ function GroupItem({ groupKey, donation, now }) {
       return (
         <DonationRow donation={donation} subtitle={createdAt}>
           <p className={`text-sm font-medium ${urgent ? 'text-urgent-700' : 'text-brand-700'}`}>
-            ⏰ Mbeten{' '}
+            <InlineIcon Icon={Clock} />
+            Mbeten{' '}
             <strong className="tabular-nums">{formatCountdown(donation.pickupDeadline - now)}</strong> · deri{' '}
             {formatClock(donation.pickupDeadline)}
           </p>
@@ -128,14 +132,18 @@ function GroupItem({ groupKey, donation, now }) {
     case 'picked_up':
       return (
         <DonationRow donation={donation} subtitle={createdAt}>
-          <p className="text-sm text-brand-700">✓ U mor në {formatClock(donation.pickedUpAt)} · në shpërndarje</p>
+          <p className="text-sm text-brand-700">
+            <InlineIcon Icon={CircleCheck} />U mor në {formatClock(donation.pickedUpAt)} · në shpërndarje
+          </p>
         </DonationRow>
       )
 
     case 'distributed':
       return (
         <DonationRow donation={donation} subtitle={createdAt}>
-          <p className="text-sm text-brand-700">👥 {donation.peopleHelped} persona u ndihmuan</p>
+          <p className="text-sm text-brand-700">
+            <InlineIcon Icon={Users} />{donation.peopleHelped} persona u ndihmuan
+          </p>
         </DonationRow>
       )
 

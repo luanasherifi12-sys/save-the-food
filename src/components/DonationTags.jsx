@@ -1,5 +1,9 @@
+import { Check, MapPin, TriangleAlert } from 'lucide-react'
 import { ALLERGENS, STORAGE_TYPES } from '../lib/constants.js'
 import { formatDistance } from '../lib/distance.js'
+
+const TAG = 'inline-flex items-center gap-1 rounded-full px-3 py-1'
+const TAG_ICON = 'size-3.5 shrink-0'
 
 // Small info chips: distance (optional), storage, kg and allergens.
 function DonationTags({ donation, distanceKm }) {
@@ -9,22 +13,22 @@ function DonationTags({ donation, distanceKm }) {
   return (
     <div className="flex flex-wrap gap-2 text-xs font-medium">
       {distanceKm !== undefined && (
-        <span className="rounded-full bg-brand-700 px-3 py-1 text-white">
-          📍 {formatDistance(distanceKm)}
+        <span className={`${TAG} bg-brand-700 text-white`}>
+          <MapPin className={TAG_ICON} /> {formatDistance(distanceKm)}
         </span>
       )}
-      <span className="rounded-full bg-brand-50 px-3 py-1 text-brand-900">
-        {storage.icon} {storage.label}
+      <span className={`${TAG} bg-brand-50 text-brand-900`}>
+        <storage.Icon className={TAG_ICON} /> {storage.label}
       </span>
-      <span className="rounded-full bg-brand-50 px-3 py-1 text-brand-900">
-        ≈ {donation.kg.toLocaleString('sq-AL')} kg
-      </span>
+      <span className={`${TAG} bg-brand-50 text-brand-900`}>≈ {donation.kg.toLocaleString('sq-AL')} kg</span>
       {hasNoAllergens ? (
-        <span className="rounded-full bg-brand-100 px-3 py-1 text-brand-900">✓ Pa alergjenë</span>
+        <span className={`${TAG} bg-brand-100 text-brand-900`}>
+          <Check className={TAG_ICON} /> Pa alergjenë
+        </span>
       ) : (
         donation.allergens.map((allergen) => (
-          <span key={allergen} className="rounded-full bg-cream-100 px-3 py-1 text-crust-700">
-            ⚠ {ALLERGENS[allergen]}
+          <span key={allergen} className={`${TAG} bg-cream-100 text-crust-700`}>
+            <TriangleAlert className={TAG_ICON} /> {ALLERGENS[allergen]}
           </span>
         ))
       )}

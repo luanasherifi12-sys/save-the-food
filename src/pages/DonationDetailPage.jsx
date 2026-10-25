@@ -1,8 +1,11 @@
+import { ArrowLeft, Check, CircleCheck, Clock, Hourglass, Navigation, StickyNote } from 'lucide-react'
 import { useState } from 'react'
 import { Link, useNavigate, useOutletContext, useParams } from 'react-router-dom'
 import BigButton from '../components/BigButton.jsx'
 import ChipGroup from '../components/ChipGroup.jsx'
 import DonationTags from '../components/DonationTags.jsx'
+import FoodIcon from '../components/FoodIcon.jsx'
+import InlineIcon from '../components/InlineIcon.jsx'
 import NumberStepper from '../components/NumberStepper.jsx'
 import ReservedCodeCard from '../components/ReservedCodeCard.jsx'
 import StatusBadge from '../components/StatusBadge.jsx'
@@ -77,16 +80,14 @@ function DonationDetailPage() {
       <button
         type="button"
         onClick={() => navigate(-1)}
-        className="min-h-11 w-fit pr-4 text-sm font-semibold text-brand-700"
+        className="flex min-h-11 w-fit items-center gap-1 pr-4 text-sm font-semibold text-brand-700"
       >
-        ← Kthehu
+        <ArrowLeft className="size-4" /> Kthehu
       </button>
 
       <div className="rounded-3xl bg-white p-4 shadow-sm ring-1 ring-brand-100">
         <div className="flex items-start gap-3">
-          <span className="flex size-16 shrink-0 items-center justify-center rounded-2xl bg-cream-50 text-4xl">
-            {foodType.icon}
-          </span>
+          <FoodIcon foodType={donation.foodType} size="xl" />
           <div className="min-w-0 flex-1">
             <StatusBadge status={donation.status} />
             <h1 className="mt-1 font-display text-2xl font-bold text-brand-900">
@@ -103,7 +104,10 @@ function DonationDetailPage() {
         </div>
 
         {donation.note && (
-          <p className="mt-4 rounded-2xl bg-cream-50 p-3 text-sm">📝 {donation.note}</p>
+          <p className="mt-4 rounded-2xl bg-cream-50 p-3 text-sm">
+            <InlineIcon Icon={StickyNote} className="text-crust-700" />
+            {donation.note}
+          </p>
         )}
 
         <a
@@ -112,7 +116,7 @@ function DonationDetailPage() {
           rel="noopener noreferrer"
           className="mt-4 flex h-12 items-center justify-center rounded-2xl bg-brand-50 font-semibold text-brand-700"
         >
-          🧭 Udhëzimet deri te biznesi
+          <Navigation className="mr-2 size-5" /> Udhëzimet deri te biznesi
         </a>
       </div>
 
@@ -179,7 +183,8 @@ function PublishedActions({ donation, now, canReserve, onReserve }) {
     <Panel>
       {urgent && <UrgentBadge />}
       <p className={urgent ? 'text-urgent-700' : 'text-brand-700'}>
-        ⏰ Mbeten{' '}
+        <InlineIcon Icon={Clock} />
+        Mbeten{' '}
         <strong className="font-display text-xl tabular-nums">
           {formatCountdown(donation.pickupDeadline - now)}
         </strong>{' '}
@@ -206,7 +211,8 @@ function ReservedActions({ donation, now, isMine, onConfirm, onCancel }) {
 
   const timeLeft = (
     <p className={msLeft < 10 * 60 * 1000 ? 'text-urgent-700' : 'text-crust-700'}>
-      ⏳ Rezervimi skadon për{' '}
+      <InlineIcon Icon={Hourglass} />
+      Rezervimi skadon për{' '}
       <strong className="font-display text-xl tabular-nums">{formatCountdown(msLeft)}</strong>
     </p>
   )
@@ -270,7 +276,9 @@ function PickedUpActions({ donation, isMine, onDistribute }) {
 
   return (
     <Panel>
-      <p className="text-brand-700">✓ U mor në {formatClock(donation.pickedUpAt)}</p>
+      <p className="text-brand-700">
+        <InlineIcon Icon={CircleCheck} />U mor në {formatClock(donation.pickedUpAt)}
+      </p>
       <h2 className="font-semibold text-brand-900">Sa persona u ndihmuan?</h2>
       <NumberStepper
         value={people}
@@ -290,8 +298,8 @@ function DistributedSummary({ donation }) {
   return (
     <Panel>
       <div className="flex flex-col items-center gap-2 py-2 text-center">
-        <span className="flex size-16 items-center justify-center rounded-full bg-brand-100 text-3xl text-brand-700">
-          ✓
+        <span className="flex size-16 items-center justify-center rounded-full bg-brand-100 text-brand-700">
+          <Check className="size-8" strokeWidth={2.5} />
         </span>
         <p className="font-display text-xl font-bold text-brand-900">
           {donation.peopleHelped} persona u ndihmuan

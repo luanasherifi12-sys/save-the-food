@@ -1,6 +1,8 @@
+import { CircleCheckBig, Scale, Truck, Users, UtensilsCrossed } from 'lucide-react'
 import { useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import DonationRow from '../components/DonationRow.jsx'
+import InlineIcon from '../components/InlineIcon.jsx'
 import SegmentedControl from '../components/SegmentedControl.jsx'
 import StatTile from '../components/StatTile.jsx'
 import { useDonations } from '../hooks/useDonations.js'
@@ -45,18 +47,18 @@ function ImpactPage() {
 
       <div className="grid grid-cols-2 gap-3">
         <StatTile
-          icon="🍽️"
+          Icon={UtensilsCrossed}
           value={formatNumber(impact.portions)}
           label={plural(impact.portions, 'porcion i shpëtuar', 'porcione të shpëtuara')}
         />
-        <StatTile icon="⚖️" value={`${formatNumber(impact.kg)} kg`} label="ushqim i rikuperuar" />
+        <StatTile Icon={Scale} value={`${formatNumber(impact.kg)} kg`} label="ushqim i rikuperuar" />
         <StatTile
-          icon="✅"
+          Icon={CircleCheckBig}
           value={formatNumber(impact.completedCount)}
           label={plural(impact.completedCount, 'donacion i përfunduar', 'donacione të përfunduara')}
         />
         <StatTile
-          icon="👥"
+          Icon={Users}
           value={formatNumber(impact.people)}
           label={plural(impact.people, 'person i ndihmuar', 'persona të ndihmuar')}
         />
@@ -64,7 +66,8 @@ function ImpactPage() {
 
       {impact.inProgressPortions > 0 && (
         <p className="rounded-2xl bg-brand-50 p-3 text-sm text-brand-900">
-          🚚 Edhe <strong>{formatNumber(impact.inProgressPortions)} porcione</strong> janë marrë dhe po
+          <InlineIcon Icon={Truck} />
+          Edhe <strong>{formatNumber(impact.inProgressPortions)} porcione</strong> janë marrë dhe po
           shpërndahen.
         </p>
       )}
@@ -87,7 +90,8 @@ function ImpactPage() {
                   <li key={item.foodType}>
                     <div className="flex justify-between text-sm">
                       <span>
-                        {foodType.icon} {foodType.label}
+                        <InlineIcon Icon={foodType.Icon} className="text-crust-700" />
+                        {foodType.label}
                       </span>
                       <span className="font-semibold tabular-nums">{formatNumber(item.portions)}</span>
                     </div>
@@ -110,7 +114,8 @@ function ImpactPage() {
                 <li key={donation.id}>
                   <DonationRow donation={donation}>
                     <p className="text-sm text-ink/70">
-                      👥 {donation.peopleHelped} persona · {formatClock(donation.distributedAt)}
+                      <InlineIcon Icon={Users} />
+                      {donation.peopleHelped} persona · {formatClock(donation.distributedAt)}
                     </p>
                   </DonationRow>
                 </li>

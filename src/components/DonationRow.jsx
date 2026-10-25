@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import FoodIcon from './FoodIcon.jsx'
 import StatusBadge from './StatusBadge.jsx'
 import { FOOD_TYPES } from '../lib/constants.js'
 
@@ -14,9 +15,7 @@ function DonationRow({ donation, subtitle = donation.businessName, muted = false
         muted ? 'opacity-60' : ''
       }`}
     >
-      <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-cream-50 text-2xl">
-        {foodType.icon}
-      </span>
+      <FoodIcon foodType={donation.foodType} size="md" />
       <div className="min-w-0 flex-1">
         <div className="flex items-center justify-between gap-2">
           <p className="truncate font-semibold text-brand-900">

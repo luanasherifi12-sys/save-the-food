@@ -1,5 +1,6 @@
 // A big tappable choice button. `selected` changes its look.
-function Chip({ selected, onClick, icon, children }) {
+// `Icon` is an optional lucide-react icon component.
+function Chip({ selected, onClick, Icon, children }) {
   return (
     <button
       type="button"
@@ -11,7 +12,7 @@ function Chip({ selected, onClick, icon, children }) {
           : 'bg-white text-ink ring-brand-100 hover:ring-brand-500'
       }`}
     >
-      {icon && <span className="text-xl">{icon}</span>}
+      {Icon && <Icon className={`size-5 shrink-0 ${selected ? 'text-white' : 'text-brand-700'}`} />}
       {children}
     </button>
   )

@@ -1,4 +1,6 @@
+import { ChevronRight, Hourglass } from 'lucide-react'
 import { Link } from 'react-router-dom'
+import FoodIcon from './FoodIcon.jsx'
 import { FOOD_TYPES, ROLES } from '../lib/constants.js'
 import { formatClock, formatCountdown, reservationEndsAt } from '../lib/time.js'
 
@@ -16,11 +18,13 @@ function ReservedCodeCard({ donation, now, showFood = false }) {
     <div className="rounded-3xl bg-cream-50 p-4 ring-2 ring-crust-500">
       {showFood && (
         <Link to={`/donations/${donation.id}`} className="mb-3 flex min-h-11 items-center gap-3">
-          <span className="text-3xl">{foodType.icon}</span>
+          <FoodIcon foodType={donation.foodType} size="sm" />
           <span className="flex-1 font-semibold text-brand-900">
             {foodType.label} · {donation.portions} porcione
           </span>
-          <span className="text-sm font-semibold text-brand-700">Detajet →</span>
+          <span className="flex items-center text-sm font-semibold text-brand-700">
+            Detajet <ChevronRight className="size-4" />
+          </span>
         </Link>
       )}
 
@@ -45,13 +49,15 @@ function ReservedCodeCard({ donation, now, showFood = false }) {
 
       <div className="mt-3 rounded-2xl bg-white px-3 py-2 text-center">
         <p className={msLeft < TEN_MINUTES ? 'text-urgent-700' : 'text-crust-700'}>
-          ⏳ Rezervimi skadon për{' '}
+          <Hourglass className="mr-1 inline size-4 align-[-2px]" />
+          Rezervimi skadon për{' '}
           <strong className="font-display text-lg whitespace-nowrap tabular-nums">
             {formatCountdown(msLeft)}
           </strong>
         </p>
-        <p className="text-xs text-ink/60">
-          {collector.icon} Rezervuar nga një {collector.label.toLowerCase()} në {formatClock(donation.reservedAt)}
+        <p className="flex items-center justify-center gap-1 text-xs text-ink/60">
+          <collector.Icon className="size-3.5" />
+          Rezervuar nga një {collector.label.toLowerCase()} në {formatClock(donation.reservedAt)}
         </p>
       </div>
     </div>

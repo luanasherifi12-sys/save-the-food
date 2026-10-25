@@ -18,9 +18,10 @@ function AppLayout({ role, onChangeRole }) {
         <button
           type="button"
           onClick={onChangeRole}
-          className="min-h-11 rounded-full bg-white/10 px-3 text-sm font-medium hover:bg-white/20"
+          className="flex min-h-11 items-center gap-1.5 rounded-full bg-white/10 px-3 text-sm font-medium hover:bg-white/20"
         >
-          {currentRole.icon} {currentRole.label} · Ndrysho
+          <currentRole.Icon className="size-4" />
+          {currentRole.label} · Ndrysho
         </button>
       </header>
 
@@ -39,13 +40,24 @@ function AppLayout({ role, onChangeRole }) {
               <NavLink
                 to={item.to}
                 className={({ isActive }) =>
-                  `flex h-16 flex-col items-center justify-center gap-0.5 text-xs font-semibold ${
+                  `flex h-16 flex-col items-center justify-center gap-1 text-xs font-semibold ${
                     isActive ? 'text-brand-700' : 'text-ink/50'
                   }`
                 }
               >
-                <span className="text-2xl">{item.icon}</span>
-                {item.label}
+                {/* children can be a function too: it gets isActive, so the icon gets a pill when active */}
+                {({ isActive }) => (
+                  <>
+                    <span
+                      className={`flex h-7 w-14 items-center justify-center rounded-full transition ${
+                        isActive ? 'bg-brand-100' : ''
+                      }`}
+                    >
+                      <item.Icon className="size-5" strokeWidth={isActive ? 2.5 : 2} />
+                    </span>
+                    {item.label}
+                  </>
+                )}
               </NavLink>
             </li>
           ))}

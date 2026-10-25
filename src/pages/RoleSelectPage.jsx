@@ -29,8 +29,8 @@ function RoleSelectPage({ role, onSelectRole }) {
             onClick={() => onSelectRole(r.id)}
             className="flex min-h-24 items-center gap-4 rounded-3xl bg-white p-4 text-left shadow-sm ring-1 ring-brand-100 transition hover:ring-brand-500 active:scale-[0.98]"
           >
-            <span className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-brand-50 text-3xl">
-              {r.icon}
+            <span className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-brand-50 text-brand-700">
+              <r.Icon className="size-7" />
             </span>
             <span>
               <span className="block text-lg font-semibold text-brand-900">{r.label}</span>

@@ -1,5 +1,7 @@
+import { Clock } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import DonationTags from './DonationTags.jsx'
+import FoodIcon from './FoodIcon.jsx'
 import UrgentBadge from './UrgentBadge.jsx'
 import { FOOD_TYPES } from '../lib/constants.js'
 import { formatClock, formatCountdown, isUrgent } from '../lib/time.js'
@@ -24,9 +26,7 @@ function DonationCard({ donation, now, distanceKm }) {
       )}
 
       <div className="flex items-center gap-3">
-        <span className="flex size-14 shrink-0 items-center justify-center rounded-2xl bg-cream-50 text-3xl">
-          {foodType.icon}
-        </span>
+        <FoodIcon foodType={donation.foodType} size="lg" />
         <div className="min-w-0 flex-1">
           <p className="truncate text-lg font-semibold text-brand-900">
             {foodType.label} · {donation.portions} porcione
@@ -46,7 +46,9 @@ function DonationCard({ donation, now, distanceKm }) {
           urgent ? 'bg-urgent-50 text-urgent-700' : 'bg-surface text-brand-700'
         }`}
       >
-        <span className="text-sm font-medium">⏰ Mbeten</span>
+        <span className="flex items-center gap-1.5 text-sm font-medium">
+          <Clock className="size-4" /> Mbeten
+        </span>
         {/* tabular-nums: all digits same width, so the countdown does not "jump" */}
         <span className="font-display text-xl font-bold tabular-nums">
           {formatCountdown(donation.pickupDeadline - now)}

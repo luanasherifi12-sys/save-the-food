@@ -1,8 +1,10 @@
+import { Check, Clock, Store, Timer } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import BigButton from '../components/BigButton.jsx'
 import Chip from '../components/Chip.jsx'
 import ChipGroup from '../components/ChipGroup.jsx'
+import InlineIcon from '../components/InlineIcon.jsx'
 import NumberStepper from '../components/NumberStepper.jsx'
 import {
   ALLERGENS,
@@ -118,7 +120,8 @@ function PublishPage() {
       <div>
         <h1 className="font-display text-2xl font-bold text-brand-900">Publiko ushqimin</h1>
         <p className="mt-1 text-sm text-ink/70">
-          🏪 {DEMO_BUSINESS.name} · {DEMO_BUSINESS.address}
+          <InlineIcon Icon={Store} />
+          {DEMO_BUSINESS.name} · {DEMO_BUSINESS.address}
         </p>
       </div>
 
@@ -154,7 +157,8 @@ function PublishPage() {
           onChange={(value) => updateField('deadlineMinutes', value)}
         />
         <p className="mt-2 text-sm font-semibold text-brand-700">
-          ⏰ Deri në {formatClock(Date.now() + form.deadlineMinutes * MINUTE)}
+          <InlineIcon Icon={Clock} />
+          Deri në {formatClock(Date.now() + form.deadlineMinutes * MINUTE)}
         </p>
       </FormSection>
 
@@ -175,7 +179,7 @@ function PublishPage() {
                 key={value}
                 selected={selected}
                 onClick={() => toggleAllergen(value)}
-                icon={value === 'none' && selected ? '✓' : null}
+                Icon={value === 'none' && selected ? Check : null}
               >
                 {label}
               </Chip>
@@ -253,17 +257,19 @@ function PublishSuccess({ donation, seconds, onPublishAnother }) {
 
   return (
     <section className="flex flex-col items-center gap-4 p-6 pt-12 text-center">
-      <span className="flex size-24 items-center justify-center rounded-full bg-brand-100 text-5xl text-brand-700">
-        ✓
+      <span className="flex size-24 items-center justify-center rounded-full bg-brand-100 text-brand-700">
+        <Check className="size-12" strokeWidth={2.5} />
       </span>
       <h1 className="font-display text-3xl font-bold text-brand-900">U publikua!</h1>
       <p className="text-lg">
-        {foodType.icon} {foodType.label} · {donation.portions} porcione
+        <InlineIcon Icon={foodType.Icon} className="text-crust-700" />
+        {foodType.label} · {donation.portions} porcione
         <br />
         <span className="text-ink/70">deri në {formatClock(donation.pickupDeadline)}</span>
       </p>
       <p className="rounded-full bg-brand-50 px-4 py-2 text-sm font-semibold text-brand-700">
-        ⏱ Gati për {seconds} sekonda
+        <InlineIcon Icon={Timer} />
+        Gati për {seconds} sekonda
       </p>
       <p className="text-ink/70">Organizatat dhe vullnetarët e shohin tani.</p>
 

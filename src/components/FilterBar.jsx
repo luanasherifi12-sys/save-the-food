@@ -1,3 +1,4 @@
+import { ChevronDown, ChevronUp, SlidersHorizontal, Zap } from 'lucide-react'
 import { useState } from 'react'
 import ChipGroup from './ChipGroup.jsx'
 import { FOOD_TYPES, toOptions } from '../lib/constants.js'
@@ -13,7 +14,7 @@ const DISTANCE_OPTIONS = [
 ]
 const URGENCY_OPTIONS = [
   { value: 'all', label: 'Të gjitha' },
-  { value: 'urgent', label: '⚡ Vetëm urgjente' },
+  { value: 'urgent', label: 'Vetëm urgjente', Icon: Zap },
 ]
 
 // "Filtra" button that opens a panel with chip groups.
@@ -37,8 +38,9 @@ function FilterBar({ filters, onChange }) {
             activeCount > 0 ? 'bg-brand-50 text-brand-900 ring-brand-500' : 'bg-white text-ink ring-brand-100'
           }`}
         >
-          ⚙️ Filtra{activeCount > 0 && ` (${activeCount})`}
-          <span className="text-xs">{open ? '▲' : '▼'}</span>
+          <SlidersHorizontal className="size-5" />
+          Filtra{activeCount > 0 && ` (${activeCount})`}
+          {open ? <ChevronUp className="size-4" /> : <ChevronDown className="size-4" />}
         </button>
         {activeCount > 0 && (
           <button

@@ -1,7 +1,7 @@
 import Chip from './Chip.jsx'
 
 // A row of chips where exactly one can be selected.
-// options: [{ value, label, icon? }]
+// options: [{ value, label, Icon? }]
 function ChipGroup({ options, value, onChange }) {
   return (
     <div className="flex flex-wrap gap-2">
@@ -10,7 +10,7 @@ function ChipGroup({ options, value, onChange }) {
           key={option.value}
           selected={option.value === value}
           onClick={() => onChange(option.value)}
-          icon={option.icon}
+          Icon={option.Icon}
         >
           {option.label}
         </Chip>

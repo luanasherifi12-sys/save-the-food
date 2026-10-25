@@ -1,7 +1,9 @@
+import { List, MapIcon, MapPin, Pointer, RotateCcw, X } from 'lucide-react'
 import { useState } from 'react'
 import DonationCard from '../components/DonationCard.jsx'
 import DonationMap from '../components/DonationMap.jsx'
 import FilterBar, { DEFAULT_FILTERS } from '../components/FilterBar.jsx'
+import InlineIcon from '../components/InlineIcon.jsx'
 import SegmentedControl from '../components/SegmentedControl.jsx'
 import { useDonations } from '../hooks/useDonations.js'
 import { useNow } from '../hooks/useNow.js'
@@ -12,8 +14,8 @@ import { resetDonations } from '../lib/donationsStore.js'
 import { isAvailable, isUrgent } from '../lib/time.js'
 
 const VIEWS = [
-  { value: 'map', label: 'Hartë', icon: '🗺️' },
-  { value: 'list', label: 'Listë', icon: '📋' },
+  { value: 'map', label: 'Hartë', Icon: MapIcon },
+  { value: 'list', label: 'Listë', Icon: List },
 ]
 
 function BrowsePage() {
@@ -93,13 +95,13 @@ function BrowsePage() {
                   aria-label="Mbyll"
                   className="absolute -top-3 right-3 flex size-10 items-center justify-center rounded-full bg-white text-lg font-bold text-ink shadow-md ring-1 ring-brand-100"
                 >
-                  ✕
+                  <X className="size-5" />
                 </button>
               </div>
             ) : (
               visible.length > 0 && (
                 <p className="mx-auto w-fit rounded-full bg-white/95 px-4 py-2 text-sm font-medium text-ink/70 shadow-md">
-                  👆 Prek një pin për të parë detajet
+                  <InlineIcon Icon={Pointer} />Prek një pin për të parë detajet
                 </p>
               )
             )}
@@ -139,7 +141,7 @@ function BrowsePage() {
         onClick={resetDonations}
         className="mt-5 w-full py-3 text-sm font-medium text-ink/50 underline"
       >
-        ↺ Rivendos të dhënat shembull
+        <InlineIcon Icon={RotateCcw} />Rivendos të dhënat shembull
       </button>
     </section>
   )
@@ -148,13 +150,13 @@ function BrowsePage() {
 // One line that says where distances are measured from, with a button to use the real location.
 function LocationNotice({ location }) {
   if (location.status === 'granted') {
-    return <p className="text-sm font-medium text-brand-700">📍 Distancat nga vendndodhja jote</p>
+    return <p className="text-sm font-medium text-brand-700"><InlineIcon Icon={MapPin} />Distancat nga vendndodhja jote</p>
   }
 
   return (
     <div className="flex items-center justify-between gap-2 text-sm">
       <span className="text-ink/70">
-        📍 Distancat nga qendra e Prishtinës
+        <InlineIcon Icon={MapPin} />Distancat nga qendra e Prishtinës
         {location.status === 'error' && (
           <span className="block text-urgent-700">Vendndodhja nuk u mor.</span>
         )}

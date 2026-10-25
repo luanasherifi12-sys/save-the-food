@@ -1,5 +1,7 @@
+import { ChevronRight, Hourglass, Package, Users } from 'lucide-react'
 import { Link, useOutletContext } from 'react-router-dom'
 import DonationRow from '../components/DonationRow.jsx'
+import InlineIcon from '../components/InlineIcon.jsx'
 import { useDonations } from '../hooks/useDonations.js'
 import { useNow } from '../hooks/useNow.js'
 import { formatClock, formatCountdown, releaseIfExpired, reservationEndsAt } from '../lib/time.js'
@@ -39,13 +41,18 @@ function PickupsPage() {
               <DonationRow donation={donation}>
                 {donation.status === 'reserved' ? (
                   <NextStep urgent={reservationEndsAt(donation) - now < TEN_MINUTES}>
-                    ⏳ Merre brenda{' '}
+                    <InlineIcon Icon={Hourglass} />
+                    Merre brenda{' '}
                     <strong className="tabular-nums">
                       {formatCountdown(reservationEndsAt(donation) - now)}
                     </strong>
                   </NextStep>
                 ) : (
-                  <NextStep>📦 Shëno shpërndarjen →</NextStep>
+                  <NextStep>
+                    <InlineIcon Icon={Package} />
+                    Shëno shpërndarjen
+                    <InlineIcon Icon={ChevronRight} />
+                  </NextStep>
                 )}
               </DonationRow>
             </li>
@@ -61,7 +68,8 @@ function PickupsPage() {
               <li key={donation.id}>
                 <DonationRow donation={donation}>
                   <p className="text-sm text-ink/70">
-                    👥 {donation.peopleHelped} persona · {formatClock(donation.distributedAt)}
+                    <InlineIcon Icon={Users} />
+                    {donation.peopleHelped} persona · {formatClock(donation.distributedAt)}
                   </p>
                 </DonationRow>
               </li>
