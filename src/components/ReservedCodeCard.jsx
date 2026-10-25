@@ -15,7 +15,7 @@ function ReservedCodeCard({ donation, now, showFood = false }) {
   return (
     <div className="rounded-3xl bg-cream-50 p-4 ring-2 ring-crust-500">
       {showFood && (
-        <Link to={`/donations/${donation.id}`} className="mb-3 flex items-center gap-3">
+        <Link to={`/donations/${donation.id}`} className="mb-3 flex min-h-11 items-center gap-3">
           <span className="text-3xl">{foodType.icon}</span>
           <span className="flex-1 font-semibold text-brand-900">
             {foodType.label} · {donation.portions} porcione

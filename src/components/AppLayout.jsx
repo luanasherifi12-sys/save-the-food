@@ -18,7 +18,7 @@ function AppLayout({ role, onChangeRole }) {
         <button
           type="button"
           onClick={onChangeRole}
-          className="rounded-full bg-white/10 px-3 py-2 text-sm font-medium hover:bg-white/20"
+          className="min-h-11 rounded-full bg-white/10 px-3 text-sm font-medium hover:bg-white/20"
         >
           {currentRole.icon} {currentRole.label} · Ndrysho
         </button>

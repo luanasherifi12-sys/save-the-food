@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Green map pin with a white wheat ear, like the pins in the app -->
+  <path d="M32 2C19.3 2 9 12.1 9 24.6 9 41.5 32 62 32 62s23-20.5 23-37.4C55 12.1 44.7 2 32 2z" fill="#1b5e20"/>
+  <g fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round">
+    <path d="M32 40V14"/>
+    <path d="M32 22c-4-1-6-4-6-7 4 0 6 3 6 7z" fill="#ffffff"/>
+    <path d="M32 22c4-1 6-4 6-7-4 0-6 3-6 7z" fill="#ffffff"/>
+    <path d="M32 30c-4-1-6-4-6-7 4 0 6 3 6 7z" fill="#ffffff"/>
+    <path d="M32 30c4-1 6-4 6-7-4 0-6 3-6 7z" fill="#ffffff"/>
+  </g>
+</svg>

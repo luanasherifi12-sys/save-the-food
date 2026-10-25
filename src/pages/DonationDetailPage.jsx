@@ -77,7 +77,7 @@ function DonationDetailPage() {
       <button
         type="button"
         onClick={() => navigate(-1)}
-        className="w-fit py-1 text-sm font-semibold text-brand-700"
+        className="min-h-11 w-fit pr-4 text-sm font-semibold text-brand-700"
       >
         ← Kthehu
       </button>

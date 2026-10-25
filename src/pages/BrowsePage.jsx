@@ -163,7 +163,7 @@ function LocationNotice({ location }) {
         type="button"
         onClick={location.requestLocation}
         disabled={location.status === 'loading'}
-        className="shrink-0 rounded-full bg-white px-3 py-2 font-semibold text-brand-700 ring-1 ring-brand-100 disabled:opacity-60"
+        className="min-h-11 shrink-0 rounded-full bg-white px-3 font-semibold text-brand-700 ring-1 ring-brand-100 disabled:opacity-60"
       >
         {location.status === 'loading' ? 'Duke kërkuar…' : 'Përdor vendndodhjen time'}
       </button>

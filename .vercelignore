@@ -1,0 +1,4 @@
+# Not needed to build the app
+*.pptx
+node_modules
+dist
