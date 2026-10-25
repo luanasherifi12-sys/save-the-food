@@ -2,6 +2,7 @@ import { useState } from 'react'
 import DonationCard from '../components/DonationCard.jsx'
 import DonationMap from '../components/DonationMap.jsx'
 import FilterBar, { DEFAULT_FILTERS } from '../components/FilterBar.jsx'
+import SegmentedControl from '../components/SegmentedControl.jsx'
 import { useDonations } from '../hooks/useDonations.js'
 import { useNow } from '../hooks/useNow.js'
 import { useUserLocation } from '../hooks/useUserLocation.js'
@@ -64,21 +65,7 @@ function BrowsePage() {
       <LocationNotice location={location} />
 
       {/* Map / list switch */}
-      <div className="grid grid-cols-2 gap-1 rounded-2xl bg-white p-1 ring-1 ring-brand-100">
-        {VIEWS.map((v) => (
-          <button
-            key={v.value}
-            type="button"
-            aria-pressed={view === v.value}
-            onClick={() => setView(v.value)}
-            className={`h-11 rounded-xl font-semibold transition ${
-              view === v.value ? 'bg-brand-700 text-white' : 'text-ink/60'
-            }`}
-          >
-            {v.icon} {v.label}
-          </button>
-        ))}
-      </div>
+      <SegmentedControl options={VIEWS} value={view} onChange={setView} />
 
       <FilterBar filters={filters} onChange={setFilters} />
 
