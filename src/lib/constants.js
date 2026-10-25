@@ -14,6 +14,7 @@ export const ROLES = {
   organization: {
     id: 'organization',
     label: 'Organizatë',
+    labelDative: 'organizatës', // "Jepja kodin organizatës"
     description: 'Organizatë humanitare, strehimore ose bankë ushqimore',
     icon: '🤝',
     homePath: '/browse',
@@ -21,6 +22,7 @@ export const ROLES = {
   volunteer: {
     id: 'volunteer',
     label: 'Vullnetar',
+    labelDative: 'vullnetarit',
     description: 'E merr ushqimin dhe e çon te kush ka nevojë',
     icon: '🚲',
     homePath: '/browse',

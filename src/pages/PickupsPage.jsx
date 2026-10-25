@@ -1,8 +1,7 @@
 import { Link, useOutletContext } from 'react-router-dom'
-import StatusBadge from '../components/StatusBadge.jsx'
+import DonationRow from '../components/DonationRow.jsx'
 import { useDonations } from '../hooks/useDonations.js'
 import { useNow } from '../hooks/useNow.js'
-import { FOOD_TYPES } from '../lib/constants.js'
 import { formatClock, formatCountdown, releaseIfExpired, reservationEndsAt } from '../lib/time.js'
 
 const TEN_MINUTES = 10 * 60 * 1000
@@ -37,7 +36,7 @@ function PickupsPage() {
         <ul className="flex flex-col gap-3">
           {active.map((donation) => (
             <li key={donation.id}>
-              <PickupRow donation={donation}>
+              <DonationRow donation={donation}>
                 {donation.status === 'reserved' ? (
                   <NextStep urgent={reservationEndsAt(donation) - now < TEN_MINUTES}>
                     ⏳ Merre brenda{' '}
@@ -48,7 +47,7 @@ function PickupsPage() {
                 ) : (
                   <NextStep>📦 Shëno shpërndarjen →</NextStep>
                 )}
-              </PickupRow>
+              </DonationRow>
             </li>
           ))}
         </ul>
@@ -60,42 +59,17 @@ function PickupsPage() {
           <ul className="flex flex-col gap-2">
             {distributed.map((donation) => (
               <li key={donation.id}>
-                <PickupRow donation={donation}>
+                <DonationRow donation={donation}>
                   <p className="text-sm text-ink/70">
                     👥 {donation.peopleHelped} persona · {formatClock(donation.distributedAt)}
                   </p>
-                </PickupRow>
+                </DonationRow>
               </li>
             ))}
           </ul>
         </>
       )}
     </section>
-  )
-}
-
-// `children` is whatever is written between <PickupRow> and </PickupRow>.
-function PickupRow({ donation, children }) {
-  const foodType = FOOD_TYPES[donation.foodType]
-  return (
-    <Link
-      to={`/donations/${donation.id}`}
-      className="flex items-center gap-3 rounded-3xl bg-white p-4 ring-1 ring-brand-100 active:scale-[0.98]"
-    >
-      <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-cream-50 text-2xl">
-        {foodType.icon}
-      </span>
-      <div className="min-w-0 flex-1">
-        <div className="flex items-center justify-between gap-2">
-          <p className="truncate font-semibold text-brand-900">
-            {foodType.label} · {donation.portions} porc.
-          </p>
-          <StatusBadge status={donation.status} />
-        </div>
-        <p className="truncate text-sm text-ink/70">{donation.businessName}</p>
-        <div className="mt-1">{children}</div>
-      </div>
-    </Link>
   )
 }
 

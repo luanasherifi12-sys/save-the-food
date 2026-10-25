@@ -4,12 +4,13 @@ import BigButton from '../components/BigButton.jsx'
 import ChipGroup from '../components/ChipGroup.jsx'
 import DonationTags from '../components/DonationTags.jsx'
 import NumberStepper from '../components/NumberStepper.jsx'
+import ReservedCodeCard from '../components/ReservedCodeCard.jsx'
 import StatusBadge from '../components/StatusBadge.jsx'
 import StatusSteps from '../components/StatusSteps.jsx'
 import UrgentBadge from '../components/UrgentBadge.jsx'
 import { useDonations } from '../hooks/useDonations.js'
 import { useNow } from '../hooks/useNow.js'
-import { FOOD_TYPES, RESERVATION_MINUTES, ROLES } from '../lib/constants.js'
+import { DEMO_BUSINESS, FOOD_TYPES, RESERVATION_MINUTES, ROLES } from '../lib/constants.js'
 import {
   cancelReservation,
   confirmPickup,
@@ -62,6 +63,7 @@ function DonationDetailPage() {
   const foodType = FOOD_TYPES[donation.foodType]
   const isCollector = role !== 'business'
   const isMine = donation.reservedBy === role
+  const isOwnBusiness = role === 'business' && donation.businessId === DEMO_BUSINESS.id
 
   // Shows the error message if an action was refused, clears it on success.
   function handleResult(result) {
@@ -132,7 +134,10 @@ function DonationDetailPage() {
         />
       )}
 
-      {donation.status === 'reserved' && (
+      {/* The business that published the food sees the pickup code instead of the collector's form */}
+      {donation.status === 'reserved' && isOwnBusiness && <ReservedCodeCard donation={donation} now={now} />}
+
+      {donation.status === 'reserved' && !isOwnBusiness && (
         <ReservedActions
           donation={donation}
           now={now}
