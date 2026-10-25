@@ -72,6 +72,9 @@ NOT in Phase 1: notifications, profile verification, AI prediction, other cities
 - Vercel is connected to the GitHub repo: every push to `main` deploys automatically.
 - `vercel.json` rewrites all paths to `index.html` so deep links like `/donations/:id` work.
 - `.env.local` (Vercel token) is created by the Vercel CLI and must stay out of Git.
+- Link previews: Open Graph + Twitter tags in `index.html` use the FULL live URL. If the domain
+  changes, update `og:url`, `og:image` and `twitter:image`. The image is `public/og-image.png`
+  (1200×630); its source is `docs/og-image/og.html`, screenshotted at exactly 1200×630.
 
 ## Commands
 - `npm run dev` – start dev server (http://localhost:5173)

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="sq">
+<head>
+<meta charset="utf-8" />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&family=Space+Grotesk:wght@700&display=block" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif;
+    background: #063b2a;
+    color: #fff;
+    position: relative;
+  }
+  /* soft mint glow + warm bread glow */
+  .glow-a { position: absolute; width: 720px; height: 720px; right: -160px; top: -220px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(31,157,99,.45), rgba(31,157,99,0) 65%); }
+  .glow-b { position: absolute; width: 520px; height: 520px; left: -200px; bottom: -280px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(200,137,63,.30), rgba(200,137,63,0) 65%); }
+  .text { position: absolute; left: 80px; top: 92px; width: 640px; }
+  .eyebrow { font-size: 20px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: #d4eedf; }
+  h1 { font-family: 'Space Grotesk', sans-serif; font-size: 104px; line-height: .95; margin-top: 22px; letter-spacing: -.02em; }
+  .tagline { margin-top: 30px; font-size: 34px; line-height: 1.3; font-weight: 500; color: #eaf7f0; }
+  .chips { position: absolute; left: 80px; bottom: 72px; display: flex; gap: 12px; }
+  .chip { background: rgba(255,255,255,.1); border: 1.5px solid rgba(255,255,255,.18); border-radius: 999px;
+    padding: 12px 20px; font-size: 21px; font-weight: 600; color: #fff; }
+  .chip.warm { background: #fbf6ec; color: #8b5a2b; border-color: #fbf6ec; }
+  /* phone with a real screenshot of the app */
+  .phone { position: absolute; right: 92px; top: 58px; width: 300px; height: 640px; border-radius: 46px;
+    background: #0f1a15; padding: 12px; transform: rotate(4deg);
+    box-shadow: 0 40px 80px rgba(0,0,0,.45), 0 0 0 2px rgba(255,255,255,.08); }
+  .screen { width: 100%; height: 100%; border-radius: 36px; overflow: hidden; background: #f4f7f6; }
+  .screen img { width: 100%; display: block; }
+  /* green drop pins like on the map */
+  .pin { position: absolute; width: 64px; height: 64px; border-radius: 50% 50% 50% 0; transform: rotate(-45deg);
+    display: flex; align-items: center; justify-content: center; border: 4px solid #fff;
+    box-shadow: 0 12px 24px rgba(0,0,0,.35); }
+  .pin span { transform: rotate(45deg); font-size: 30px; }
+  .pin.green { background: #1b5e20; }
+  .pin.orange { background: #e8590c; }
+</style>
+</head>
+<body>
+  <div class="glow-a"></div>
+  <div class="glow-b"></div>
+
+  <div class="text">
+    <p class="eyebrow">Platforma civic-tech · Prishtinë</p>
+    <h1>Save the Food</h1>
+    <p class="tagline">Ushqimi që mund të ndihmojë dikë nuk duhet të bëhet mbeturinë.</p>
+  </div>
+
+  <div class="chips">
+    <span class="chip warm">🍞 Publiko për 60 s</span>
+    <span class="chip">🗺️ Hartë live</span>
+    <span class="chip">🔐 Kod marrjeje</span>
+  </div>
+
+  <div class="phone"><div class="screen"><img src="../screenshots/1-harta.png" alt="" /></div></div>
+  <div class="pin orange" style="right: 368px; top: 120px;"><span>🍞</span></div>
+  <div class="pin green" style="right: 54px; top: 300px;"><span>🥐</span></div>
+</body>
+</html>
