@@ -5,14 +5,14 @@ function NumberStepper({ value, onChange, min = 1, max = 500, decreaseLabel, inc
   }
 
   const buttonClass =
-    'size-14 rounded-2xl bg-white text-3xl font-bold text-brand-700 ring-1 ring-brand-100 active:scale-95'
+    'size-14 rounded-2xl bg-card text-3xl font-bold text-brand-700 ring-1 ring-brand-100 active:scale-95'
 
   return (
     <div className="flex items-center gap-3">
       <button type="button" onClick={() => change(value - 1)} aria-label={decreaseLabel} className={buttonClass}>
         −
       </button>
-      <span className="w-20 text-center font-display text-4xl font-bold text-brand-900 tabular-nums">
+      <span className="w-20 text-center font-display text-4xl font-semibold text-brand-900 tabular-nums">
         {value}
       </span>
       <button type="button" onClick={() => change(value + 1)} aria-label={increaseLabel} className={buttonClass}>

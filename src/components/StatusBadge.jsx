@@ -9,7 +9,7 @@ const STATUS_STYLES = {
 
 function StatusBadge({ status }) {
   return (
-    <span className={`inline-block rounded-full px-3 py-1 text-xs font-bold ${STATUS_STYLES[status]}`}>
+    <span className={`inline-block rounded-md px-2 py-0.5 text-xs font-semibold ${STATUS_STYLES[status]}`}>
       {STATUSES[status].label}
     </span>
   )

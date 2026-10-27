@@ -8,6 +8,7 @@ import FoodIcon from '../components/FoodIcon.jsx'
 import InlineIcon from '../components/InlineIcon.jsx'
 import NumberStepper from '../components/NumberStepper.jsx'
 import ReservedCodeCard from '../components/ReservedCodeCard.jsx'
+import ShareDonationButton from '../components/ShareDonationButton.jsx'
 import StatusBadge from '../components/StatusBadge.jsx'
 import StatusSteps from '../components/StatusSteps.jsx'
 import UrgentBadge from '../components/UrgentBadge.jsx'
@@ -53,7 +54,7 @@ function DonationDetailPage() {
   if (!stored) {
     return (
       <section className="p-4">
-        <p className="rounded-2xl bg-white p-6 text-center text-ink/70">{REASON_MESSAGES['not-found']}</p>
+        <p className="rounded-2xl bg-card p-6 text-center text-ink/70">{REASON_MESSAGES['not-found']}</p>
         <Link to="/browse" className="mt-4 block text-center font-semibold text-brand-700 underline">
           Shiko ushqimin në dispozicion
         </Link>
@@ -86,12 +87,12 @@ function DonationDetailPage() {
         <ArrowLeft className="size-4" /> Kthehu
       </button>
 
-      <div className="rounded-3xl bg-white p-4 shadow-sm ring-1 ring-brand-100">
+      <div className="rounded-3xl bg-card p-4 shadow-sm ring-1 ring-brand-100">
         <div className="flex items-start gap-3">
           <FoodIcon foodType={donation.foodType} size="xl" />
           <div className="min-w-0 flex-1">
             <StatusBadge status={donation.status} />
-            <h1 className="mt-1 font-display text-2xl font-bold text-brand-900">
+            <h1 className="mt-1 font-display text-2xl font-semibold text-brand-900">
               {foodType.label} · {donation.portions} porcione
             </h1>
             <p className="text-ink/70">
@@ -119,6 +120,13 @@ function DonationDetailPage() {
         >
           <Navigation className="mr-2 size-5" /> Udhëzimet deri te biznesi
         </a>
+
+        {/* Only food that someone can still take is worth sharing */}
+        {isAvailable(donation, now) && (
+          <div className="mt-3">
+            <ShareDonationButton donation={donation} />
+          </div>
+        )}
       </div>
 
       {/* Right column on the computer. On phone/tablet `contents` makes this box disappear
@@ -170,7 +178,7 @@ function DonationDetailPage() {
 }
 
 function Panel({ children }) {
-  return <div className="flex flex-col gap-3 rounded-3xl bg-white p-4 ring-1 ring-brand-100">{children}</div>
+  return <div className="flex flex-col gap-3 rounded-3xl bg-card p-4 ring-1 ring-brand-100">{children}</div>
 }
 
 // Status 1: Published -> "Rezervo"
@@ -252,7 +260,7 @@ function ReservedActions({ donation, now, isMine, onConfirm, onCancel }) {
           inputMode="numeric"
           autoComplete="one-time-code"
           placeholder="• • • •"
-          className="h-16 w-full rounded-2xl bg-surface text-center font-display text-4xl font-bold tracking-[0.5em] ring-2 ring-brand-100 focus:ring-brand-500 focus:outline-none"
+          className="h-16 w-full rounded-2xl bg-surface text-center font-display text-4xl font-semibold tracking-[0.5em] ring-2 ring-brand-100 focus:ring-brand-500 focus:outline-none"
         />
         <BigButton type="submit" disabled={code.length !== 4}>
           Konfirmo marrjen
@@ -306,7 +314,7 @@ function DistributedSummary({ donation }) {
         <span className="flex size-16 items-center justify-center rounded-full bg-brand-100 text-brand-700">
           <Check className="size-8" strokeWidth={2.5} />
         </span>
-        <p className="font-display text-xl font-bold text-brand-900">
+        <p className="font-display text-xl font-semibold text-brand-900">
           {donation.peopleHelped} persona u ndihmuan
         </p>
         <p className="text-sm text-ink/70">

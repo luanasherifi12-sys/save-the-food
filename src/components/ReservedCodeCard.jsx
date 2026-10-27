@@ -37,7 +37,7 @@ function ReservedCodeCard({ donation, now, showFood = false }) {
           <span
             key={index}
             aria-hidden="true"
-            className="flex h-20 w-16 items-center justify-center rounded-2xl bg-white font-display text-5xl font-bold text-brand-900 shadow-sm ring-1 ring-cream-100"
+            className="flex h-20 w-16 items-center justify-center rounded-2xl bg-card font-display text-5xl font-semibold text-brand-900 shadow-sm ring-1 ring-cream-100"
           >
             {digit}
           </span>
@@ -47,7 +47,7 @@ function ReservedCodeCard({ donation, now, showFood = false }) {
         Jepja këtë kod {collector.labelDative} kur të vijë.
       </p>
 
-      <div className="mt-3 rounded-2xl bg-white px-3 py-2 text-center">
+      <div className="mt-3 rounded-2xl bg-card px-3 py-2 text-center">
         <p className={msLeft < TEN_MINUTES ? 'text-urgent-700' : 'text-crust-700'}>
           <Hourglass className="mr-1 inline size-4 align-[-2px]" />
           Rezervimi skadon për{' '}

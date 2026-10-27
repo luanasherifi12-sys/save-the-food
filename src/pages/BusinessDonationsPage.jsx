@@ -68,7 +68,7 @@ function BusinessDonationsPage() {
   return (
     <section className="flex flex-col gap-4 p-4 lg:gap-6 lg:p-6">
       <div>
-        <h1 className="font-display text-2xl font-bold text-brand-900">Donacionet e mia</h1>
+        <h1 className="font-display text-2xl font-semibold text-brand-900">Donacionet e mia</h1>
         <p className="mt-1 text-sm text-ink/70">
           <InlineIcon Icon={Store} />
           {DEMO_BUSINESS.name} · {mine.length} {mine.length === 1 ? 'donacion' : 'donacione'}
@@ -76,7 +76,7 @@ function BusinessDonationsPage() {
       </div>
 
       {mine.length === 0 && (
-        <div className="rounded-2xl bg-white p-6 text-center text-ink/70">
+        <div className="rounded-2xl bg-card p-6 text-center text-ink/70">
           <p>Nuk ke publikuar ende ushqim.</p>
           <Link to="/publish" className="mt-2 inline-block font-semibold text-brand-700 underline">
             Publiko tani

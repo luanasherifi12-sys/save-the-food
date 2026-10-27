@@ -23,9 +23,62 @@
 
   --color-ink: #26352e; /* body text */
   --color-surface: #f4f7f6; /* page background */
+  --color-card: #ffffff; /* cards, chips, inputs (use bg-card, not bg-white) */
+  --color-header: #063b2a; /* the green header bar: dark in BOTH themes */
+  --color-header-soft: #d4eedf; /* light text on the header */
 
   --font-sans: 'Inter', system-ui, sans-serif;
-  --font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
+  --font-display: 'Inter', system-ui, sans-serif; /* headings: same family, tighter and semibold */
+
+  /* Calmer, more professional corners (Tailwind's defaults are rounder). */
+  --radius-xl: 0.5rem; /* 8px */
+  --radius-2xl: 0.625rem; /* 10px */
+  --radius-3xl: 0.75rem; /* 12px */
+}
+
+:root {
+  color-scheme: light dark; /* native inputs and scrollbars follow the theme */
+}
+
+/*
+  Dark mode: follows the phone/computer setting automatically.
+  Only the token VALUES change, so every component adapts without extra classes.
+  Text tokens (brand-900, brand-700, crust-700, urgent-700) become light;
+  background tokens (surface, card, brand-50/100, cream, urgent-50) become dark.
+  The header keeps its dark green, so its text stays white.
+*/
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-brand-900: #d7f0e2; /* headings: light mint */
+    --color-brand-700: #2f9e5f; /* buttons + links: brighter green that reads on dark */
+    --color-brand-500: #52c98a;
+    --color-brand-100: #2a3f35; /* rings and borders */
+    --color-brand-50: #1b2d25; /* tinted backgrounds */
+
+    --color-cream-50: #2a241a;
+    --color-cream-100: #3b3223;
+    --color-crust-500: #d9a05c;
+    --color-crust-700: #e8bb85;
+
+    --color-urgent-50: #3a2418;
+    --color-urgent-500: #f0732e;
+    --color-urgent-700: #ffa36b;
+
+    --color-ink: #e1eae5;
+    --color-surface: #0e1814;
+    --color-card: #16231e;
+    --color-header: #0a2d21;
+  }
+
+  /* The map tiles are bright; dim them a little so they don't glare at night. */
+  .leaflet-tile-pane {
+    filter: brightness(0.75) contrast(1.1);
+  }
+}
+
+/* Headings and big numbers: slightly tighter letter spacing reads more polished. */
+.font-display {
+  letter-spacing: -0.02em;
 }
 
 body {

@@ -1,4 +1,4 @@
-import { Navigate, NavLink, Outlet } from 'react-router-dom'
+import { Navigate, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { NAV_ITEMS, ROLES } from '../lib/constants.js'
 
 // Shared frame for every screen after role selection:
@@ -6,9 +6,13 @@ import { NAV_ITEMS, ROLES } from '../lib/constants.js'
 // (phone, tablet) or inside the header (computer, lg and up).
 // Content width: phone max-w-md, tablet max-w-3xl, computer 1200px.
 function AppLayout({ role, onChangeRole }) {
+  const location = useLocation()
+
   // No role chosen yet -> back to role selection.
+  // A shared donation link is remembered, so the person lands on it after choosing a role.
   if (!role) {
-    return <Navigate to="/" replace />
+    const sharedDonation = location.pathname.startsWith('/donations/') ? location.pathname : null
+    return <Navigate to="/" replace state={{ from: sharedDonation }} />
   }
 
   const currentRole = ROLES[role]
@@ -18,8 +22,8 @@ function AppLayout({ role, onChangeRole }) {
       {/* Extra top padding under the phone's status bar / notch when installed as an app.
           On tablet/computer the header is full width; the side padding lines its content up
           with the page content: (screen width − content width) / 2 */}
-      <header className="flex items-center justify-between gap-4 bg-brand-900 px-4 pt-[max(0.75rem,env(safe-area-inset-top))] pb-3 text-white md:px-[max(1rem,calc((100%-48rem)/2+1rem))] lg:px-[max(1rem,calc((100%-1200px)/2+1rem))]">
-        <span className="font-display text-lg font-bold">Save the Food</span>
+      <header className="flex items-center justify-between gap-4 bg-header px-4 pt-[max(0.75rem,env(safe-area-inset-top))] pb-3 text-white md:px-[max(1rem,calc((100%-48rem)/2+1rem))] lg:px-[max(1rem,calc((100%-1200px)/2+1rem))]">
+        <span className="font-display text-lg font-semibold">Save the Food</span>
 
         {/* Computer: navigation lives in the header */}
         <nav className="hidden lg:block" aria-label="Menuja kryesore">
@@ -30,7 +34,7 @@ function AppLayout({ role, onChangeRole }) {
                   to={item.to}
                   className={({ isActive }) =>
                     `flex h-11 items-center gap-2 rounded-full px-4 font-semibold transition ${
-                      isActive ? 'bg-white text-brand-900' : 'text-white/80 hover:bg-white/10 hover:text-white'
+                      isActive ? 'bg-white text-header' : 'text-white/80 hover:bg-white/10 hover:text-white'
                     }`
                   }
                 >
@@ -59,7 +63,7 @@ function AppLayout({ role, onChangeRole }) {
       </main>
 
       {/* Phone and tablet only. z-[1000]: above the Leaflet map, which uses z-index up to ~800 */}
-      <nav className="fixed inset-x-0 bottom-0 z-[1000] border-t border-brand-100 bg-white pb-[env(safe-area-inset-bottom)] lg:hidden">
+      <nav className="fixed inset-x-0 bottom-0 z-[1000] border-t border-brand-100 bg-card pb-[env(safe-area-inset-bottom)] lg:hidden">
         <ul className="mx-auto flex max-w-md">
           {NAV_ITEMS[role].map((item) => (
             <li key={item.to} className="flex-1">

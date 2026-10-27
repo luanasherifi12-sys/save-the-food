@@ -35,7 +35,7 @@ function FilterBar({ filters, onChange, className = '' }) {
           aria-expanded={open}
           onClick={() => setOpen(!open)}
           className={`flex h-11 flex-1 items-center justify-center gap-2 rounded-2xl font-semibold ring-1 ${
-            activeCount > 0 ? 'bg-brand-50 text-brand-900 ring-brand-500' : 'bg-white text-ink ring-brand-100'
+            activeCount > 0 ? 'bg-brand-50 text-brand-900 ring-brand-500' : 'bg-card text-ink ring-brand-100'
           }`}
         >
           <SlidersHorizontal className="size-5" />
@@ -46,7 +46,7 @@ function FilterBar({ filters, onChange, className = '' }) {
           <button
             type="button"
             onClick={() => onChange(DEFAULT_FILTERS)}
-            className="h-11 rounded-2xl bg-white px-4 text-sm font-semibold text-brand-700 ring-1 ring-brand-100"
+            className="h-11 rounded-2xl bg-card px-4 text-sm font-semibold text-brand-700 ring-1 ring-brand-100"
           >
             Pastro
           </button>
@@ -54,7 +54,7 @@ function FilterBar({ filters, onChange, className = '' }) {
       </div>
 
       {open && (
-        <div className="mt-2 flex flex-col gap-4 rounded-3xl bg-white p-4 ring-1 ring-brand-100">
+        <div className="mt-2 flex flex-col gap-4 rounded-3xl bg-card p-4 ring-1 ring-brand-100">
           <FilterGroup title="Lloji">
             <ChipGroup
               options={FOOD_OPTIONS}

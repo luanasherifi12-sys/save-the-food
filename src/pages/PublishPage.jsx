@@ -1,11 +1,13 @@
-import { Check, Clock, Store, Timer } from 'lucide-react'
+import { Check, Clock, RotateCcw, Store, Timer } from 'lucide-react'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import BigButton from '../components/BigButton.jsx'
 import Chip from '../components/Chip.jsx'
 import ChipGroup from '../components/ChipGroup.jsx'
+import FoodIcon from '../components/FoodIcon.jsx'
 import InlineIcon from '../components/InlineIcon.jsx'
 import NumberStepper from '../components/NumberStepper.jsx'
+import { useDonations } from '../hooks/useDonations.js'
 import {
   ALLERGENS,
   DEMO_BUSINESS,
@@ -43,6 +45,58 @@ function formatKg(kg) {
   return kg.toLocaleString('sq-AL')
 }
 
+// The deadline option closest to how long the last donation stayed available.
+function closestDeadline(minutes) {
+  return DEADLINE_OPTIONS.reduce((best, option) =>
+    Math.abs(option.value - minutes) < Math.abs(best.value - minutes) ? option : best,
+  ).value
+}
+
+// The business's most recent donation, or null. Bakeries often have the same surplus every day.
+function findLastDonation(donations) {
+  const own = donations.filter((d) => d.businessId === DEMO_BUSINESS.id && d.createdAt)
+  if (own.length === 0) return null
+  return own.reduce((latest, d) => (d.createdAt > latest.createdAt ? d : latest))
+}
+
+// Turns a past donation back into form values. The business still checks them and taps "Publiko".
+function formFromDonation(donation) {
+  const estimated = estimateKg(donation.foodType, donation.portions)
+  return {
+    foodType: donation.foodType,
+    portions: donation.portions,
+    deadlineMinutes: closestDeadline((donation.pickupDeadline - donation.createdAt) / MINUTE),
+    storage: donation.storage,
+    allergens: donation.allergens,
+    kgOverride: donation.kg !== estimated ? String(donation.kg) : null, // keep a weight they typed
+    note: donation.note ?? '',
+  }
+}
+
+function RepeatLastCard({ donation, onRepeat }) {
+  const foodType = FOOD_TYPES[donation.foodType]
+  return (
+    <div className="flex items-center gap-3 rounded-2xl bg-cream-50 p-3 ring-1 ring-cream-100">
+      <FoodIcon foodType={donation.foodType} size="sm" />
+      <div className="min-w-0 flex-1">
+        <p className="text-xs font-semibold tracking-wide text-crust-700 uppercase">Si herën e kaluar?</p>
+        <p className="truncate font-semibold text-brand-900">
+          {foodType.label} · {donation.portions} porcione
+        </p>
+        <p className="truncate text-xs text-ink/60">{STORAGE_TYPES[donation.storage].label}</p>
+      </div>
+      <button
+        type="button"
+        onClick={onRepeat}
+        className="flex min-h-11 shrink-0 items-center gap-1.5 rounded-xl bg-brand-700 px-3 text-sm font-semibold text-white active:scale-95"
+      >
+        <RotateCcw className="size-4" />
+        Plotëso
+      </button>
+    </div>
+  )
+}
+
 function FormSection({ title, children }) {
   return (
     <div>
@@ -56,6 +110,7 @@ function PublishPage() {
   const [form, setForm] = useState(EMPTY_FORM)
   const [startedAt, setStartedAt] = useState(() => Date.now())
   const [published, setPublished] = useState(null) // { donation, seconds } after publishing
+  const lastDonation = findLastDonation(useDonations())
 
   // Copies the form object and changes one field. React needs a NEW object to notice the change.
   function updateField(name, value) {
@@ -119,12 +174,17 @@ function PublishPage() {
     // Tablet/computer: a centered column, wider than on the phone
     <form onSubmit={handleSubmit} className="flex flex-col gap-7 p-4 md:mx-auto md:w-full md:max-w-2xl md:p-6">
       <div>
-        <h1 className="font-display text-2xl font-bold text-brand-900">Publiko ushqimin</h1>
+        <h1 className="font-display text-2xl font-semibold text-brand-900">Publiko ushqimin</h1>
         <p className="mt-1 text-sm text-ink/70">
           <InlineIcon Icon={Store} />
           {DEMO_BUSINESS.name} · {DEMO_BUSINESS.address}
         </p>
       </div>
+
+      {/* Only on an untouched form: once they start choosing, the card would just be in the way. */}
+      {lastDonation && form === EMPTY_FORM && (
+        <RepeatLastCard donation={lastDonation} onRepeat={() => setForm(formFromDonation(lastDonation))} />
+      )}
 
       <FormSection title="Çfarë ushqimi?">
         <ChipGroup
@@ -215,7 +275,7 @@ function PublishPage() {
                 value={form.kgOverride}
                 onChange={(event) => updateField('kgOverride', event.target.value)}
                 aria-label="Pesha në kilogramë"
-                className="h-14 w-28 rounded-2xl bg-white px-4 text-xl font-semibold ring-1 ring-brand-100 focus:ring-2 focus:ring-brand-500 focus:outline-none"
+                className="h-14 w-28 rounded-2xl bg-card px-4 text-xl font-semibold ring-1 ring-brand-100 focus:ring-2 focus:ring-brand-500 focus:outline-none"
               />
               <span className="font-semibold">kg</span>
               <button
@@ -237,7 +297,7 @@ function PublishPage() {
           rows={2}
           maxLength={200}
           placeholder="P.sh. hyrja nga pas, sillni enë"
-          className="w-full rounded-2xl bg-white p-4 ring-1 ring-brand-100 focus:ring-2 focus:ring-brand-500 focus:outline-none"
+          className="w-full rounded-2xl bg-card p-4 ring-1 ring-brand-100 focus:ring-2 focus:ring-brand-500 focus:outline-none"
         />
       </FormSection>
 
@@ -262,7 +322,7 @@ function PublishSuccess({ donation, seconds, onPublishAnother }) {
       <span className="flex size-24 items-center justify-center rounded-full bg-brand-100 text-brand-700">
         <Check className="size-12" strokeWidth={2.5} />
       </span>
-      <h1 className="font-display text-3xl font-bold text-brand-900">U publikua!</h1>
+      <h1 className="font-display text-3xl font-semibold text-brand-900">U publikua!</h1>
       <p className="text-lg">
         <InlineIcon Icon={foodType.Icon} className="text-crust-700" />
         {foodType.label} · {donation.portions} porcione

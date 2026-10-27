@@ -3,7 +3,7 @@
 function SegmentedControl({ options, value, onChange, className = '' }) {
   return (
     <div
-      className={`grid gap-1 rounded-2xl bg-white p-1 ring-1 ring-brand-100 ${className}`}
+      className={`grid gap-1 rounded-2xl bg-card p-1 ring-1 ring-brand-100 ${className}`}
       style={{ gridTemplateColumns: `repeat(${options.length}, 1fr)` }}
     >
       {options.map((option) => (

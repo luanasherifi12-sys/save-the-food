@@ -1,4 +1,4 @@
-import { CircleCheckBig, Scale, Truck, Users, UtensilsCrossed } from 'lucide-react'
+import { CircleCheckBig, Leaf, Scale, Truck, Users, UtensilsCrossed } from 'lucide-react'
 import { useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import DonationRow from '../components/DonationRow.jsx'
@@ -6,7 +6,7 @@ import InlineIcon from '../components/InlineIcon.jsx'
 import SegmentedControl from '../components/SegmentedControl.jsx'
 import StatTile from '../components/StatTile.jsx'
 import { useDonations } from '../hooks/useDonations.js'
-import { DEMO_BUSINESS, FOOD_TYPES } from '../lib/constants.js'
+import { CO2E_PER_KG_FOOD, DEMO_BUSINESS, FOOD_TYPES } from '../lib/constants.js'
 import { calculateImpact } from '../lib/impact.js'
 import { formatClock } from '../lib/time.js'
 
@@ -42,7 +42,7 @@ function ImpactPage() {
   return (
     // Computer: a 2-column grid; full-width rows use lg:col-span-2
     <section className="flex flex-col gap-4 p-4 lg:grid lg:grid-cols-2 lg:items-start lg:gap-6 lg:p-6">
-      <h1 className="font-display text-2xl font-bold text-brand-900 lg:col-span-2">Ndikimi ynë</h1>
+      <h1 className="font-display text-2xl font-semibold text-brand-900 lg:col-span-2">Ndikimi ynë</h1>
 
       <SegmentedControl
         options={SCOPES}
@@ -70,6 +70,23 @@ function ImpactPage() {
         />
       </div>
 
+      {/* The environmental side of the same kilograms. Full width so the 4 tiles above stay a clean grid. */}
+      {impact.co2Kg > 0 && (
+        <div className="flex items-center gap-4 rounded-3xl bg-header p-4 text-white lg:col-span-2">
+          <span className="flex size-12 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-header-soft">
+            <Leaf className="size-6" />
+          </span>
+          <div className="min-w-0">
+            <p className="font-display text-2xl font-semibold tabular-nums">
+              ≈ {formatNumber(impact.co2Kg)} kg CO₂
+            </p>
+            <p className="text-sm text-header-soft">
+              të shmangura, sepse ky ushqim nuk përfundoi si mbeturinë
+            </p>
+          </div>
+        </div>
+      )}
+
       {impact.inProgressPortions > 0 && (
         <p className="rounded-2xl bg-brand-50 p-3 text-sm text-brand-900 lg:col-span-2">
           <InlineIcon Icon={Truck} />
@@ -79,12 +96,12 @@ function ImpactPage() {
       )}
 
       {impact.completedCount === 0 ? (
-        <p className="rounded-2xl bg-white p-6 text-center text-ink/70 lg:col-span-2">
+        <p className="rounded-2xl bg-card p-6 text-center text-ink/70 lg:col-span-2">
           Ende asnjë donacion i shpërndarë. Numrat rriten sapo shënohet shpërndarja e parë.
         </p>
       ) : (
         <>
-          <div className="rounded-3xl bg-white p-4 ring-1 ring-brand-100">
+          <div className="rounded-3xl bg-card p-4 ring-1 ring-brand-100">
             <h2 className="text-sm font-semibold tracking-wide text-ink/60 uppercase">
               Porcione sipas llojit
             </h2>
@@ -133,6 +150,7 @@ function ImpactPage() {
 
       <p className="text-center text-xs text-ink/50 lg:col-span-2">
         Llogaritet nga donacionet me status “Shpërndarë”. Personat i shënon organizata ose vullnetari.
+        CO₂ është vlerësim: ≈ {formatNumber(CO2E_PER_KG_FOOD)} kg CO₂e për çdo kg ushqim të humbur (FAO, 2013).
       </p>
     </section>
   )

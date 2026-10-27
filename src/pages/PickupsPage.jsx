@@ -25,10 +25,10 @@ function PickupsPage() {
 
   return (
     <section className="flex flex-col gap-4 p-4 lg:p-6">
-      <h1 className="font-display text-2xl font-bold text-brand-900">Marrjet e mia</h1>
+      <h1 className="font-display text-2xl font-semibold text-brand-900">Marrjet e mia</h1>
 
       {active.length === 0 ? (
-        <div className="rounded-2xl bg-white p-6 text-center text-ink/70">
+        <div className="rounded-2xl bg-card p-6 text-center text-ink/70">
           <p>Nuk ke rezervime aktive.</p>
           <Link to="/browse" className="mt-2 inline-block font-semibold text-brand-700 underline">
             Gjej ushqim afër teje

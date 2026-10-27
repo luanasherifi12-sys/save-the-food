@@ -1,6 +1,6 @@
 const VARIANTS = {
-  primary: 'bg-brand-700 text-white shadow-lg shadow-brand-900/20 disabled:bg-ink/25 disabled:shadow-none',
-  secondary: 'bg-white text-brand-700 ring-1 ring-brand-100',
+  primary: 'bg-brand-700 text-white disabled:bg-ink/25',
+  secondary: 'bg-card text-brand-700 ring-1 ring-brand-100',
 }
 
 // The main action of a screen. Extra props (type, disabled, onClick...) go straight to <button>.

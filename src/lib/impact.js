@@ -1,4 +1,4 @@
-import { FOOD_TYPES } from './constants.js'
+import { CO2E_PER_KG_FOOD, FOOD_TYPES } from './constants.js'
 
 // Turns a list of donations into impact numbers. Pure function: no React, no storage.
 // Only "Shpërndarë" (distributed) donations count as completed; "Marrë" is shown separately.
@@ -33,6 +33,7 @@ export function calculateImpact(donations) {
     completedCount: completed.length,
     portions: totals.portions,
     kg: Math.round(totals.kg * 10) / 10, // avoid 2.4000000000000004
+    co2Kg: Math.round(totals.kg * CO2E_PER_KG_FOOD), // whole kg: it is an estimate anyway
     people: totals.people,
     inProgressPortions,
     byFoodType,

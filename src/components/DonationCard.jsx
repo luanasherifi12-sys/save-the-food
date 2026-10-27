@@ -14,8 +14,8 @@ function DonationCard({ donation, now, distanceKm, highlighted = false, onPointe
   const foodType = FOOD_TYPES[donation.foodType]
   const urgent = isUrgent(donation, now)
 
-  let ring = urgent ? 'ring-2 ring-urgent-500' : 'ring-1 ring-brand-100'
-  if (highlighted) ring = 'ring-4 ring-brand-500 shadow-lg'
+  let ring = urgent ? 'ring-1 ring-urgent-500/70' : 'ring-1 ring-brand-100'
+  if (highlighted) ring = 'ring-2 ring-brand-500 shadow-md'
 
   return (
     <Link
@@ -23,7 +23,7 @@ function DonationCard({ donation, now, distanceKm, highlighted = false, onPointe
       onPointerEnter={onPointerEnter}
       onFocus={onPointerEnter} // keyboard users get the same highlight
       // md: flex column, so the countdown sits at the bottom when cards in a grid row have different heights
-      className={`block h-full rounded-3xl bg-white p-4 shadow-sm transition active:scale-[0.98] md:flex md:flex-col ${ring}`}
+      className={`block h-full rounded-3xl bg-card p-4 shadow-sm transition active:scale-[0.98] md:flex md:flex-col ${ring}`}
     >
       {urgent && (
         <div className="mb-3">
@@ -56,7 +56,7 @@ function DonationCard({ donation, now, distanceKm, highlighted = false, onPointe
           <Clock className="size-4" /> Mbeten
         </span>
         {/* tabular-nums: all digits same width, so the countdown does not "jump" */}
-        <span className="font-display text-xl font-bold tabular-nums">
+        <span className="font-display text-xl font-semibold tabular-nums">
           {formatCountdown(donation.pickupDeadline - now)}
         </span>
         <span className="text-sm font-medium">deri {formatClock(donation.pickupDeadline)}</span>

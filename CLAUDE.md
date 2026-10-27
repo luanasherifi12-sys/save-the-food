@@ -36,7 +36,15 @@ picks it up (confirmed with a code) → distributes it.
 - Colors (from the presentation): `brand-900` #063B2A, `brand-700` #1B5E20 (primary),
   `brand-500` #1F9D63, `brand-50` #EAF7F0, `surface` #F4F7F6, `ink` #26352E.
   Warm bread tones: `cream-50/100`, `crust-500/700`.
-- Fonts: Inter (text), Space Grotesk (headings, class `font-display`).
+- Fonts: Inter only. Headings use `font-display` (Inter, semibold, letter-spacing -0.02em).
+- Professional look: corners are small (`--radius-xl/2xl/3xl` = 8/10/12px in `src/index.css`),
+  info tags are neutral outlines (`DonationTags`), badges are small rectangles, no heavy shadows,
+  headings `font-semibold` (not bold). Avoid big pastel pills and thick colored borders.
+- Dark mode: automatic via `prefers-color-scheme` in `src/index.css`. Only token VALUES change there,
+  so components need no `dark:` classes. Rules that keep it working:
+  use `bg-card` (never `bg-white`) for cards, chips and inputs; use `bg-header` for the green header
+  bar and `text-header-soft` for light text on it (both stay dark/light in both themes).
+  `bg-white` is only for things that must stay white in both themes (e.g. the active header pill).
 - Map pins: green drop pins with food icons (see mockup in the presentation).
 - Icons: lucide-react SVG components, no emoji in the UI. Constants store the component as `Icon`
   (render `<item.Icon className="size-5" />`). Use `FoodIcon` for food types and `InlineIcon`
@@ -70,6 +78,12 @@ NOT in Phase 1: notifications, profile verification, AI prediction, other cities
   The refresh is only saved if it increases the number available (no endless refreshing).
   "Rivendos të dhënat shembull" is a full reset. Demo only, removed with Supabase.
 - Every status change sets `updatedAt` on the donation.
+- "Si herën e kaluar?" on the publish form prefills it from the business's latest donation
+  (the business still checks and taps Publiko; nothing is published automatically).
+- Share: `ShareDonationButton` uses the Web Share API on phones, the clipboard on computers,
+  and a WhatsApp link as a last fallback. A shared `/donations/:id` link opened without a role is
+  remembered (`state.from`) and opened right after the person picks a role.
+- CO₂ on the impact panel = kg × `CO2E_PER_KG_FOOD` (2.5, FAO "Food Wastage Footprint" 2013). An estimate.
 - Times are always shown in 24-hour format ("14:09"), as used in Kosovo.
 - Kg is estimated automatically from food type × portions; the business can optionally edit it.
 - Organization and Volunteer share the same screens in Phase 1 (only the role label differs).

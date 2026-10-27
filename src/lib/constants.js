@@ -111,6 +111,11 @@ export const STATUSES = {
   distributed: { label: 'Shpërndarë' },
 }
 
+// Greenhouse gases caused by wasted food, per kg: about 2.5 kg CO₂-equivalent.
+// Source: FAO, "Food Wastage Footprint" (2013): 1.3 billion tonnes wasted -> 3.3 billion tonnes CO₂e.
+// An estimate for the impact panel, not an exact measurement.
+export const CO2E_PER_KG_FOOD = 2.5
+
 export const RESERVATION_MINUTES = 30 // a reservation expires if not picked up in time
 export const URGENT_MINUTES = 60 // "Duhet marrë së shpejti" below this
 

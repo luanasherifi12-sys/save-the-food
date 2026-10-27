@@ -75,7 +75,7 @@ function BrowsePage() {
     // lg: a grid with the map on the left and the list (26rem) on the right
     <section className="flex flex-col gap-3 p-4 lg:grid lg:grid-cols-[minmax(0,1fr)_26rem] lg:items-start lg:gap-x-6 lg:p-6">
       <div className="lg:col-span-2">
-        <h1 className="font-display text-2xl font-bold text-brand-900">Ushqimi afër teje</h1>
+        <h1 className="font-display text-2xl font-semibold text-brand-900">Ushqimi afër teje</h1>
         <p className="mt-1 text-ink/70">
           {visible.length} {visible.length === 1 ? 'donacion' : 'donacione'} në dispozicion
           {isFiltered && ` (nga ${available.length})`}
@@ -121,14 +121,14 @@ function BrowsePage() {
                     type="button"
                     onClick={() => setSelectedId(null)}
                     aria-label="Mbyll"
-                    className="absolute -top-3 right-3 flex size-10 items-center justify-center rounded-full bg-white text-lg font-bold text-ink shadow-md ring-1 ring-brand-100"
+                    className="absolute -top-3 right-3 flex size-10 items-center justify-center rounded-full bg-card text-lg font-bold text-ink shadow-md ring-1 ring-brand-100"
                   >
                     <X className="size-5" />
                   </button>
                 </div>
               ) : (
                 visible.length > 0 && (
-                  <p className="mx-auto w-fit rounded-full bg-white/95 px-4 py-2 text-sm font-medium text-ink/70 shadow-md">
+                  <p className="mx-auto w-fit rounded-full bg-card/95 px-4 py-2 text-sm font-medium text-ink/70 shadow-md">
                     <InlineIcon Icon={Pointer} />
                     Prek një pin për të parë detajet
                   </p>
@@ -157,7 +157,7 @@ function BrowsePage() {
       )}
 
       {visible.length === 0 && (
-        <div className="rounded-2xl bg-white p-6 text-center text-ink/70 lg:col-start-2">
+        <div className="rounded-2xl bg-card p-6 text-center text-ink/70 lg:col-start-2">
           {isFiltered ? (
             <>
               <p>Asnjë donacion me këta filtra.</p>
@@ -209,7 +209,7 @@ function LocationNotice({ location, className = '' }) {
         type="button"
         onClick={location.requestLocation}
         disabled={location.status === 'loading'}
-        className="min-h-11 shrink-0 rounded-full bg-white px-3 font-semibold text-brand-700 ring-1 ring-brand-100 disabled:opacity-60"
+        className="min-h-11 shrink-0 rounded-full bg-card px-3 font-semibold text-brand-700 ring-1 ring-brand-100 disabled:opacity-60"
       >
         {location.status === 'loading' ? 'Duke kërkuar…' : 'Përdor vendndodhjen time'}
       </button>
