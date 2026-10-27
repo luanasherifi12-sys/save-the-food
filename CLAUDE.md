@@ -64,9 +64,12 @@ NOT in Phase 1: notifications, profile verification, AI prediction, other cities
   without changing components.
 - Data lives in localStorage. Other tabs refresh instantly via the `storage` event.
 - Sample data uses times **relative to now** (e.g. deadline in 45 min) so the app never looks empty.
-  When no donation is available anymore (published + deadline not passed), the `sample-*`
-  donations are recreated relative to now; real (non-sample) donations are kept.
-  Demo only, removed with Supabase.
+  When fewer than 4 donations are available (published + deadline not passed), the `sample-*`
+  donations are recreated relative to now. Real (non-sample) donations are always kept, and so
+  are samples in use in a demo (have `updatedAt` and are reserved/picked up/distributed).
+  The refresh is only saved if it increases the number available (no endless refreshing).
+  "Rivendos të dhënat shembull" is a full reset. Demo only, removed with Supabase.
+- Every status change sets `updatedAt` on the donation.
 - Times are always shown in 24-hour format ("14:09"), as used in Kosovo.
 - Kg is estimated automatically from food type × portions; the business can optionally edit it.
 - Organization and Volunteer share the same screens in Phase 1 (only the role label differs).

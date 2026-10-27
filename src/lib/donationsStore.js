@@ -6,13 +6,30 @@ import { isAvailable, releaseIfExpired } from './time.js'
 const STORAGE_KEY = 'stf.donations'
 const CHANGE_EVENT = 'stf:donations-changed'
 
+// Demo: when fewer donations than this can be reserved, the sample data is brought back to life.
+const MIN_AVAILABLE = 4
+
 function isSample(donation) {
   return donation.id.startsWith('sample-')
 }
 
-// Replaces the old sample donations with new ones relative to `now`; real donations are kept.
-function withFreshSamples(donations, now) {
-  return [...donations.filter((d) => !isSample(d)), ...createSampleDonations(now)]
+// A sample someone is working with right now in the demo: changed by a user action
+// (it has `updatedAt`) and reserved, picked up or distributed. Refreshing must not remove it.
+function isSampleInUse(donation) {
+  return isSample(donation) && donation.updatedAt != null && donation.status !== 'published'
+}
+
+function countAvailable(donations, now) {
+  return donations.filter((d) => isAvailable(d, now)).length
+}
+
+// Replaces the sample donations with new ones relative to `now`. Real donations are always kept.
+// With keepInUse, samples someone is working with are kept too (and not created twice).
+function withFreshSamples(donations, now, { keepInUse }) {
+  const kept = donations.filter((d) => !isSample(d) || (keepInUse && isSampleInUse(d)))
+  const keptIds = new Set(kept.map((d) => d.id))
+  const fresh = createSampleDonations(now).filter((d) => !keptIds.has(d.id))
+  return [...kept, ...fresh]
 }
 
 function readDonations() {
@@ -30,10 +47,16 @@ function readDonations() {
   let donations = saved.map((d) => releaseIfExpired(d, now))
   let changed = donations.some((d, index) => d !== saved[index])
 
-  // Nothing left to reserve -> bring the sample data back to life so the app never looks empty.
-  if (!donations.some((d) => isAvailable(d, now))) {
-    donations = withFreshSamples(donations, now)
-    changed = true
+  // Too little left to reserve -> bring the sample data back to life so the app always looks alive.
+  // Only keep the refresh if it really adds available food; otherwise (many samples in use)
+  // we would refresh on every read and the deadlines would keep jumping.
+  const availableNow = countAvailable(donations, now)
+  if (availableNow < MIN_AVAILABLE) {
+    const refreshed = withFreshSamples(donations, now, { keepInUse: true })
+    if (countAvailable(refreshed, now) > availableNow) {
+      donations = refreshed
+      changed = true
+    }
   }
 
   if (changed) localStorage.setItem(STORAGE_KEY, JSON.stringify(donations))
@@ -89,13 +112,16 @@ function updateDonation(id, change) {
   const index = donations.findIndex((d) => d.id === id)
   if (index === -1) return { ok: false, reason: 'not-found' }
 
-  const result = change(donations[index], Date.now())
+  const now = Date.now()
+  const result = change(donations[index], now)
   if (!result.ok) return result
 
+  // updatedAt: when a person last changed it (also tells the demo refresh that a sample is in use)
+  const changedDonation = { ...result.donation, updatedAt: now }
   const updated = [...donations]
-  updated[index] = result.donation
+  updated[index] = changedDonation
   saveDonations(updated)
-  return result
+  return { ok: true, donation: changedDonation }
 }
 
 // Published -> Reserved
@@ -134,7 +160,8 @@ export function markDistributed(id, peopleHelped) {
 }
 
 export function resetDonations() {
-  writeDonations(withFreshSamples(readDonations(), Date.now()))
+  // "Rivendos të dhënat shembull": a full reset of all samples, also the ones in use
+  writeDonations(withFreshSamples(readDonations(), Date.now(), { keepInUse: false }))
 }
 
 // Calls `callback` whenever donations change, in this tab or in another one.
