@@ -1,4 +1,5 @@
 import { Navigate, NavLink, Outlet, useLocation } from 'react-router-dom'
+import { ChevronDown } from 'lucide-react'
 import Logo from './Logo.jsx'
 import { NAV_ITEMS, ROLES } from '../lib/constants.js'
 
@@ -24,7 +25,7 @@ function AppLayout({ role, onChangeRole }) {
           On tablet/computer the header is full width; the side padding lines its content up
           with the page content: (screen width − content width) / 2 */}
       <header className="flex items-center justify-between gap-4 bg-header px-4 pt-[max(0.75rem,env(safe-area-inset-top))] pb-3 text-white md:px-[max(1rem,calc((100%-48rem)/2+1rem))] lg:px-[max(1rem,calc((100%-1200px)/2+1rem))]">
-        <span className="flex items-center gap-2 font-display text-lg font-semibold">
+        <span className="flex items-center gap-2 font-display text-lg font-semibold whitespace-nowrap">
           <Logo className="size-7" onDark />
           Save the Food
         </span>
@@ -50,20 +51,27 @@ function AppLayout({ role, onChangeRole }) {
           </ul>
         </nav>
 
+        {/* Short on phones (icon + role); "· Ndrysho" appears from 640px. aria-label gives the full meaning. */}
         <button
           type="button"
           onClick={onChangeRole}
-          className="flex min-h-11 items-center gap-1.5 rounded-full bg-white/10 px-3 text-sm font-medium hover:bg-white/20"
+          aria-label={`Ndrysho rolin (tani: ${currentRole.label})`}
+          className="flex min-h-11 shrink-0 items-center gap-1.5 rounded-full bg-white/10 px-3 text-sm font-medium whitespace-nowrap hover:bg-white/20"
         >
           <currentRole.Icon className="size-4" />
-          {currentRole.label} · Ndrysho
+          {currentRole.label}
+          <span className="hidden sm:inline">· Ndrysho</span>
+          <ChevronDown className="size-4 opacity-70 sm:hidden" />
         </button>
       </header>
 
       {/* pb-24 leaves room so the fixed bottom nav does not cover the content */}
       <main className="flex-1 pb-24 md:mx-auto md:w-full md:max-w-3xl lg:max-w-[1200px] lg:pb-12">
         {/* Pages read the role with useOutletContext() */}
-        <Outlet context={{ role }} />
+        {/* key: a new page gets a fresh wrapper, so it fades in (animate-page-in) */}
+        <div key={location.pathname} className="animate-page-in">
+          <Outlet context={{ role }} />
+        </div>
       </main>
 
       {/* Phone and tablet only. z-[1000]: above the Leaflet map, which uses z-index up to ~800 */}

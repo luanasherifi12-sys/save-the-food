@@ -12,6 +12,7 @@ import { useUserLocation } from '../hooks/useUserLocation.js'
 import { PRISHTINA_CENTER } from '../lib/constants.js'
 import { distanceKm } from '../lib/distance.js'
 import { resetDonations } from '../lib/donationsStore.js'
+import { showToast } from '../lib/toast.js'
 import { isAvailable, isUrgent } from '../lib/time.js'
 
 const VIEWS = [
@@ -177,7 +178,10 @@ function BrowsePage() {
 
       <button
         type="button"
-        onClick={resetDonations}
+        onClick={() => {
+          resetDonations()
+          showToast('Të dhënat shembull u rivendosën.')
+        }}
         className="mt-5 w-full py-3 text-sm font-medium text-ink/50 underline lg:col-span-2"
       >
         <InlineIcon Icon={RotateCcw} />Rivendos të dhënat shembull

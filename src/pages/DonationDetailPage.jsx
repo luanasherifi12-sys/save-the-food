@@ -1,8 +1,10 @@
 import { ArrowLeft, Check, CircleCheck, Clock, Hourglass, Navigation, StickyNote } from 'lucide-react'
 import { useState } from 'react'
+import { showToast } from '../lib/toast.js'
 import { Link, useNavigate, useOutletContext, useParams } from 'react-router-dom'
 import BigButton from '../components/BigButton.jsx'
 import ChipGroup from '../components/ChipGroup.jsx'
+import Confetti from '../components/Confetti.jsx'
 import DonationTags from '../components/DonationTags.jsx'
 import FoodIcon from '../components/FoodIcon.jsx'
 import InlineIcon from '../components/InlineIcon.jsx'
@@ -49,6 +51,7 @@ function DonationDetailPage() {
   const donations = useDonations()
   const now = useNow()
   const [error, setError] = useState(null)
+  const [celebrate, setCelebrate] = useState(false) // true right after THIS person marked it distributed
 
   const stored = donations.find((d) => d.id === id)
   if (!stored) {
@@ -69,9 +72,11 @@ function DonationDetailPage() {
   const isMine = donation.reservedBy === role
   const isOwnBusiness = role === 'business' && donation.businessId === DEMO_BUSINESS.id
 
-  // Shows the error message if an action was refused, clears it on success.
-  function handleResult(result) {
+  // Refused -> the error message stays on the page. Done -> a short toast with `successMessage`.
+  function handleResult(result, successMessage) {
     setError(result.ok ? null : REASON_MESSAGES[result.reason])
+    if (result.ok) showToast(successMessage)
+    return result.ok
   }
 
   const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${donation.lat},${donation.lng}`
@@ -146,7 +151,12 @@ function DonationDetailPage() {
             donation={donation}
             now={now}
             canReserve={isCollector}
-            onReserve={() => handleResult(reserveDonation(donation.id, role))}
+            onReserve={() =>
+              handleResult(
+                reserveDonation(donation.id, role),
+                `U rezervua! Ke ${RESERVATION_MINUTES} minuta për ta marrë.`,
+              )
+            }
           />
         )}
 
@@ -158,8 +168,8 @@ function DonationDetailPage() {
             donation={donation}
             now={now}
             isMine={isMine}
-            onConfirm={(code) => handleResult(confirmPickup(donation.id, code))}
-            onCancel={() => handleResult(cancelReservation(donation.id))}
+            onConfirm={(code) => handleResult(confirmPickup(donation.id, code), 'Marrja u konfirmua.')}
+            onCancel={() => handleResult(cancelReservation(donation.id), 'Rezervimi u anulua.')}
           />
         )}
 
@@ -167,11 +177,15 @@ function DonationDetailPage() {
           <PickedUpActions
             donation={donation}
             isMine={isMine}
-            onDistribute={(people) => handleResult(markDistributed(donation.id, people))}
+            onDistribute={(people) => {
+              if (handleResult(markDistributed(donation.id, people), 'Faleminderit! Shpërndarja u shënua.')) {
+                setCelebrate(true)
+              }
+            }}
           />
         )}
 
-        {donation.status === 'distributed' && <DistributedSummary donation={donation} />}
+        {donation.status === 'distributed' && <DistributedSummary donation={donation} celebrate={celebrate} />}
       </div>
     </section>
   )
@@ -307,12 +321,18 @@ function PickedUpActions({ donation, isMine, onDistribute }) {
 }
 
 // Status 4: Distributed -> summary
-function DistributedSummary({ donation }) {
+// `celebrate`: the person just marked it distributed -> the check mark pops in with confetti.
+function DistributedSummary({ donation, celebrate }) {
   return (
     <Panel>
       <div className="flex flex-col items-center gap-2 py-2 text-center">
-        <span className="flex size-16 items-center justify-center rounded-full bg-brand-100 text-brand-700">
+        <span
+          className={`relative flex size-16 items-center justify-center rounded-full bg-brand-100 text-brand-700 ${
+            celebrate ? 'animate-pop-in' : ''
+          }`}
+        >
           <Check className="size-8" strokeWidth={2.5} />
+          {celebrate && <Confetti />}
         </span>
         <p className="font-display text-xl font-semibold text-brand-900">
           {donation.peopleHelped} persona u ndihmuan

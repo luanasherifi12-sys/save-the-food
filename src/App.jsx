@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { ROLES, ROLE_STORAGE_KEY } from './lib/constants.js'
 import AppLayout from './components/AppLayout.jsx'
+import Toaster from './components/Toaster.jsx'
 import RoleSelectPage from './pages/RoleSelectPage.jsx'
 import PublishPage from './pages/PublishPage.jsx'
 import BusinessDonationsPage from './pages/BusinessDonationsPage.jsx'
@@ -29,6 +30,16 @@ function App() {
     setRole(newRole)
   }
 
+  return (
+    <>
+      <AppRoutes role={role} changeRole={changeRole} />
+      {/* Short messages after actions ("U rezervua!"), on every page */}
+      <Toaster />
+    </>
+  )
+}
+
+function AppRoutes({ role, changeRole }) {
   return (
     <Routes>
       <Route path="/" element={<RoleSelectPage role={role} onSelectRole={changeRole} />} />
