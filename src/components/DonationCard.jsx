@@ -56,7 +56,7 @@ function DonationCard({ donation, now, distanceKm, highlighted = false, onPointe
           <Clock className="size-4" /> Mbeten
         </span>
         {/* tabular-nums: all digits same width, so the countdown does not "jump" */}
-        <span className="font-display text-xl font-semibold tabular-nums">
+        <span className="text-xl font-semibold tabular-nums">
           {formatCountdown(donation.pickupDeadline - now)}
         </span>
         <span className="text-sm font-medium">deri {formatClock(donation.pickupDeadline)}</span>

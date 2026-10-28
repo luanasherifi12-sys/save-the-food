@@ -1,39 +1,45 @@
 @import 'tailwindcss';
 
 /*
-  Design tokens. Every variable here becomes a Tailwind class,
-  e.g. --color-brand-900 -> bg-brand-900, text-brand-900, border-brand-900.
-  Greens come from the SAVE THE FOOD presentation; cream/crust are warm bread tones.
+  Design tokens – "Elegant i ngrohtë" (warm & elegant).
+  Every variable here becomes a Tailwind class, e.g. --color-brand-900 -> bg-brand-900, text-brand-900.
+  Deep forest green, paper-cream backgrounds, gold/bread-crust accents, terracotta for urgency.
 */
 @theme {
-  --color-brand-900: #063b2a; /* headings, header bar */
-  --color-brand-700: #1b5e20; /* primary buttons, map pins */
-  --color-brand-500: #1f9d63; /* accents, success */
-  --color-brand-100: #d4eedf;
-  --color-brand-50: #eaf7f0; /* light mint background */
+  --color-brand-900: #1c3a2a; /* headings: deep forest green */
+  --color-brand-700: #2d5a3d; /* primary buttons, links, map pins */
+  --color-brand-500: #4f8a5e; /* accents, charts, the live dot */
+  --color-brand-100: #e4ddcb; /* soft warm borders, selected pills */
+  --color-brand-50: #efe9da; /* tinted backgrounds */
 
-  --color-cream-50: #fbf6ec; /* warm card background */
-  --color-cream-100: #f5ebd7;
-  --color-crust-500: #c8893f; /* bread crust, secondary accent */
-  --color-crust-700: #8b5a2b;
+  --color-cream-50: #f8f0e0; /* warm highlight background */
+  --color-cream-100: #ecdfc4;
+  --color-crust-500: #b8864b; /* gold / bread crust accent */
+  --color-crust-700: #87592b;
 
-  --color-urgent-50: #fff1e6; /* "Duhet marrë së shpejti" */
-  --color-urgent-500: #e8590c;
-  --color-urgent-700: #b33d00;
+  --color-urgent-50: #faebe1; /* "Duhet marrë së shpejti": terracotta, calmer than orange */
+  --color-urgent-500: #c4622d;
+  --color-urgent-700: #9a4417;
 
-  --color-ink: #26352e; /* body text */
-  --color-surface: #f4f7f6; /* page background */
-  --color-card: #ffffff; /* cards, chips, inputs (use bg-card, not bg-white) */
-  --color-header: #063b2a; /* the green header bar: dark in BOTH themes */
-  --color-header-soft: #d4eedf; /* light text on the header */
+  --color-ink: #2b2620; /* body text: warm near-black */
+  --color-surface: #f5efe4; /* page background: paper */
+  --color-card: #fffcf6; /* cards, chips, inputs (use bg-card, not bg-white) */
+  --color-header: #173326; /* the green header bar: dark in BOTH themes */
+  --color-header-soft: #e8dcc2; /* cream text on the header */
 
   --font-sans: 'Inter', system-ui, sans-serif;
-  --font-display: 'Inter', system-ui, sans-serif; /* headings: same family, tighter and semibold */
+  /* Headings: Fraunces, a warm serif. Numbers that change (countdowns, counters) use font-sans + tabular-nums. */
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
 
-  /* Calmer, more professional corners (Tailwind's defaults are rounder). */
-  --radius-xl: 0.5rem; /* 8px */
-  --radius-2xl: 0.625rem; /* 10px */
-  --radius-3xl: 0.75rem; /* 12px */
+  /* Soft, comfortable corners */
+  --radius-xl: 0.75rem; /* 12px */
+  --radius-2xl: 1rem; /* 16px */
+  --radius-3xl: 1.25rem; /* 20px */
+
+  /* Warm, soft shadows instead of grey ones */
+  --shadow-sm: 0 1px 2px rgb(43 38 32 / 0.04), 0 4px 14px -4px rgb(43 38 32 / 0.08);
+  --shadow-md: 0 2px 4px rgb(43 38 32 / 0.05), 0 10px 28px -8px rgb(43 38 32 / 0.16);
+  --shadow-lg: 0 4px 8px rgb(43 38 32 / 0.06), 0 18px 44px -12px rgb(43 38 32 / 0.22);
 
   /* New items in the live activity feed slide in from above (class: animate-feed-in) */
   --animate-feed-in: feed-in 0.45s ease-out both;
@@ -125,25 +131,29 @@
 */
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-brand-900: #d7f0e2; /* headings: light mint */
-    --color-brand-700: #2f9e5f; /* buttons + links: brighter green that reads on dark */
-    --color-brand-500: #52c98a;
-    --color-brand-100: #2a3f35; /* rings and borders */
-    --color-brand-50: #1b2d25; /* tinted backgrounds */
+    --color-brand-900: #eee3cc; /* headings: warm cream */
+    --color-brand-700: #4a8a60; /* buttons + links: a green that reads on dark and carries white text */
+    --color-brand-500: #7fb48e;
+    --color-brand-100: #3a342b; /* warm borders */
+    --color-brand-50: #26221c; /* tinted backgrounds */
 
-    --color-cream-50: #2a241a;
-    --color-cream-100: #3b3223;
-    --color-crust-500: #d9a05c;
-    --color-crust-700: #e8bb85;
+    --color-cream-50: #2b241a;
+    --color-cream-100: #3c3224;
+    --color-crust-500: #d4a465;
+    --color-crust-700: #e7c18e;
 
-    --color-urgent-50: #3a2418;
-    --color-urgent-500: #f0732e;
-    --color-urgent-700: #ffa36b;
+    --color-urgent-50: #3a2419;
+    --color-urgent-500: #e07a45;
+    --color-urgent-700: #f2a77c;
 
-    --color-ink: #e1eae5;
-    --color-surface: #0e1814;
-    --color-card: #16231e;
-    --color-header: #0a2d21;
+    --color-ink: #ece4d6;
+    --color-surface: #13110e; /* warm dark, not blue-black */
+    --color-card: #1d1a15;
+    --color-header: #0f2419;
+
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
+    --shadow-md: 0 8px 24px -8px rgb(0 0 0 / 0.5);
+    --shadow-lg: 0 16px 40px -12px rgb(0 0 0 / 0.6);
   }
 
   /* The map tiles are bright; dim them a little so they don't glare at night. */
@@ -152,9 +162,10 @@
   }
 }
 
-/* Headings and big numbers: slightly tighter letter spacing reads more polished. */
+/* Serif headings: a touch tighter, and Fraunces' "soft" style for a warmer look. */
 .font-display {
-  letter-spacing: -0.02em;
+  letter-spacing: -0.015em;
+  font-variation-settings: 'SOFT' 50;
 }
 
 body {

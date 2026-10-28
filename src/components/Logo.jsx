@@ -5,7 +5,7 @@ function Logo({ className = 'size-7', onDark = false }) {
     <svg viewBox="0 0 64 64" className={className} aria-hidden="true">
       <path
         d="M32 2C19.3 2 9 12.1 9 24.6 9 41.5 32 62 32 62s23-20.5 23-37.4C55 12.1 44.7 2 32 2z"
-        fill={onDark ? '#2f9e5f' : '#1b5e20'}
+        fill={onDark ? '#4f8a5e' : '#2d5a3d'}
       />
       <g fill="#ffffff">
         <rect x="30.6" y="20" width="2.8" height="25" rx="1.4" />

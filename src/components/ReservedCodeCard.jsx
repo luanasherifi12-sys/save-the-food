@@ -51,7 +51,7 @@ function ReservedCodeCard({ donation, now, showFood = false }) {
         <p className={msLeft < TEN_MINUTES ? 'text-urgent-700' : 'text-crust-700'}>
           <Hourglass className="mr-1 inline size-4 align-[-2px]" />
           Rezervimi skadon për{' '}
-          <strong className="font-display text-lg whitespace-nowrap tabular-nums">
+          <strong className="text-lg whitespace-nowrap tabular-nums">
             {formatCountdown(msLeft)}
           </strong>
         </p>

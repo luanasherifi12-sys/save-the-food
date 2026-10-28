@@ -212,7 +212,7 @@ function PublishedActions({ donation, now, canReserve, onReserve }) {
       <p className={urgent ? 'text-urgent-700' : 'text-brand-700'}>
         <InlineIcon Icon={Clock} />
         Mbeten{' '}
-        <strong className="font-display text-xl tabular-nums">
+        <strong className="text-xl tabular-nums">
           {formatCountdown(donation.pickupDeadline - now)}
         </strong>{' '}
         · deri {formatClock(donation.pickupDeadline)}
@@ -240,7 +240,7 @@ function ReservedActions({ donation, now, isMine, onConfirm, onCancel }) {
     <p className={msLeft < 10 * 60 * 1000 ? 'text-urgent-700' : 'text-crust-700'}>
       <InlineIcon Icon={Hourglass} />
       Rezervimi skadon për{' '}
-      <strong className="font-display text-xl tabular-nums">{formatCountdown(msLeft)}</strong>
+      <strong className="text-xl tabular-nums">{formatCountdown(msLeft)}</strong>
     </p>
   )
 
