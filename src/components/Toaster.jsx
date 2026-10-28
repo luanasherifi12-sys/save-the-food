@@ -21,7 +21,7 @@ function Toaster() {
   return (
     <div
       role="status"
-      className="pointer-events-none fixed inset-x-0 bottom-[calc(5rem+env(safe-area-inset-bottom))] z-[1100] flex flex-col items-center gap-2 px-4 lg:bottom-6"
+      className="pointer-events-none fixed inset-x-0 bottom-[calc(5rem+env(safe-area-inset-bottom))] z-[1100] print:hidden flex flex-col items-center gap-2 px-4 lg:bottom-6"
     >
       {toasts.map((toast) => {
         const Icon = toast.kind === 'error' ? CircleAlert : CircleCheck

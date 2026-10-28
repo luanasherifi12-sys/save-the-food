@@ -67,6 +67,12 @@ picks it up (confirmed with a code) → distributes it.
 
 NOT in Phase 1: notifications, profile verification, AI prediction, other cities.
 
+## Design: "Elegant i ngrohtë" (chosen by the user)
+- Paper-cream surfaces, Fraunces serif headings (`font-display`), forest green, gold (crust) and
+  terracotta (urgent) accents, soft 12–20px corners, warm shadows. All in `@theme` tokens in index.css.
+- Fraunces has NO tabular digits: numbers that tick every second (countdowns) use the sans font.
+- Theme: Profili -> Automatike / E çelët / E errët (`data-theme` on <html>, lib/profileStore.js).
+
 ## Decisions
 - All data access goes through `src/lib/donationsStore.js`, so Supabase can replace it later
   without changing components.
@@ -87,6 +93,14 @@ NOT in Phase 1: notifications, profile verification, AI prediction, other cities
   The refresh is only saved if it increases the number available (no endless refreshing).
   "Rivendos të dhënat shembull" is a full reset. Demo only, removed with Supabase.
 - Every status change sets `updatedAt` on the donation.
+- Profiles (`lib/profileStore.js`, `useProfile`): one per role on this device until Supabase accounts.
+  The business profile keeps id `demo-business` so the sample donations stay "mine".
+- Notifications (`lib/notifications.js`) are computed from donations + profile preferences; only the
+  "last seen" time is stored. Ratings live on the donation (`rating: { stars, tags, ratedAt }`).
+- Achievements (`lib/badges.js`) and the weekly leaderboard (`lib/leaderboard.js`, demo + live)
+  are computed, never stored. Reports: `lib/reports.js` (CSV with BOM and ";" for Excel) + print CSS.
+- NEXT: Supabase (auth with email + password / magic link, shared data, realtime). Phone/SMS login
+  needs a paid SMS provider: only if the user decides to pay.
 - "Si herën e kaluar?" on the publish form prefills it from the business's latest donation
   (the business still checks and taps Publiko; nothing is published automatically).
 - Share: `ShareDonationButton` uses the Web Share API on phones, the clipboard on computers,

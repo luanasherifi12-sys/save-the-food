@@ -1,6 +1,6 @@
-import { CircleCheckBig, Leaf, Scale, TrendingDown, TrendingUp, Truck, Users, UtensilsCrossed } from 'lucide-react'
+import { CircleCheckBig, FileText, Leaf, Scale, TrendingDown, TrendingUp, Truck, Users, UtensilsCrossed } from 'lucide-react'
 import { useState } from 'react'
-import { useOutletContext } from 'react-router-dom'
+import { Link, useOutletContext } from 'react-router-dom'
 import AnimatedNumber from '../components/AnimatedNumber.jsx'
 import BadgeGrid from '../components/BadgeGrid.jsx'
 import Leaderboard from '../components/Leaderboard.jsx'
@@ -73,7 +73,15 @@ function ImpactPage() {
   return (
     // Computer: a 2-column grid; full-width rows use lg:col-span-2
     <section className="flex flex-col gap-4 p-4 lg:grid lg:grid-cols-2 lg:items-start lg:gap-6 lg:p-6">
-      <h1 className="font-display text-2xl font-semibold text-brand-900 lg:col-span-2">Ndikimi ynë</h1>
+      <div className="flex items-center justify-between gap-3 lg:col-span-2">
+        <h1 className="font-display text-2xl font-semibold text-brand-900">Ndikimi ynë</h1>
+        <Link
+          to="/reports"
+          className="flex h-10 items-center gap-1.5 rounded-xl bg-card px-3 text-sm font-semibold text-brand-700 shadow-sm ring-1 ring-brand-100"
+        >
+          <FileText className="size-4" /> Raporti
+        </Link>
+      </div>
 
       <div className="flex flex-col gap-2 lg:col-span-2">
         <SegmentedControl options={SCOPES} value={scope} onChange={setScope} className="md:max-w-md" />

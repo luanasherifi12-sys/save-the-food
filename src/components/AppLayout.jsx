@@ -25,7 +25,7 @@ function AppLayout({ role, onChangeRole }) {
       {/* Extra top padding under the phone's status bar / notch when installed as an app.
           On tablet/computer the header is full width; the side padding lines its content up
           with the page content: (screen width − content width) / 2 */}
-      <header className="flex items-center justify-between gap-4 bg-header px-4 pt-[max(0.75rem,env(safe-area-inset-top))] pb-3 text-white md:px-[max(1rem,calc((100%-48rem)/2+1rem))] lg:px-[max(1rem,calc((100%-1200px)/2+1rem))]">
+      <header className="flex items-center justify-between gap-4 bg-header print:hidden px-4 pt-[max(0.75rem,env(safe-area-inset-top))] pb-3 text-white md:px-[max(1rem,calc((100%-48rem)/2+1rem))] lg:px-[max(1rem,calc((100%-1200px)/2+1rem))]">
         <span className="flex items-center gap-2 font-display text-lg font-semibold whitespace-nowrap">
           <Logo className="size-7" onDark />
           Save the Food
@@ -80,7 +80,7 @@ function AppLayout({ role, onChangeRole }) {
       </main>
 
       {/* Phone and tablet only. z-[1000]: above the Leaflet map, which uses z-index up to ~800 */}
-      <nav className="fixed inset-x-0 bottom-0 z-[1000] border-t border-brand-100 bg-card pb-[env(safe-area-inset-bottom)] lg:hidden">
+      <nav className="fixed inset-x-0 bottom-0 z-[1000] border-t border-brand-100 bg-card pb-[env(safe-area-inset-bottom)] lg:hidden print:hidden">
         <ul className="mx-auto flex max-w-md">
           {NAV_ITEMS[role].map((item) => (
             <li key={item.to} className="flex-1">

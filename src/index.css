@@ -206,3 +206,35 @@
 body {
   @apply bg-surface text-ink font-sans antialiased;
 }
+
+/* Printing a report (Raporti -> Printo / PDF): always light, white paper, no shadows.
+   The selectors match the dark-theme ones, so they win in dark mode too. */
+@media print {
+  :root,
+  :root[data-theme='dark'],
+  :root:not([data-theme='light']) {
+    --color-surface: #ffffff;
+    --color-card: #ffffff;
+    --color-ink: #1a1a1a;
+    --color-brand-900: #1c3a2a;
+    --color-brand-700: #2d5a3d;
+    --color-brand-100: #d9d4c7;
+    --color-brand-50: #f1eee6;
+    --color-cream-100: #ecdfc4;
+    --color-crust-500: #b8864b;
+    --color-crust-700: #87592b;
+    color-scheme: light;
+  }
+  body {
+    background: #ffffff;
+  }
+  /* Tables: no scrolling on paper, tighter cells so every column fits the page */
+  .overflow-x-auto {
+    overflow: visible !important;
+  }
+  th,
+  td {
+    padding: 6px 8px !important;
+    font-size: 11px;
+  }
+}

@@ -53,6 +53,12 @@ Teprica ekziston dhe nevoja ekziston. Mungon një **lidhje e shpejtë** mes tyre
 - 🔗 **Ndaje ushqimin** me vullnetarët (WhatsApp, Viber, SMS) dhe **"Si herën e kaluar?"** për biznesin.
 - 🌙 **Modalitet i errët** automatik, **njoftime** pas çdo veprimi dhe animacione që respektojnë "reduce motion".
 - 🖥️ **Responsive:** telefon, tablet dhe kompjuter (harta dhe lista krah për krah).
+- 👤 **Profili dhe cilësimet:** të dhënat, vendndodhja në hartë, orari, preferencat e njoftimeve,
+  tema (automatike / e çelët / e errët).
+- 🔔 **Njoftime në app:** rezervime, marrje, shpërndarje, ushqim urgjent afër, rezervime që skadojnë.
+- ⭐ **Vlerësime, arritje dhe "Bizneset e javës".**
+- 📄 **Raporte:** sot / javë / muaj, shkarkim **CSV** (Excel) dhe **Printo / PDF**.
+- 🎨 Dizajn **"Elegant i ngrohtë"**: letër krem, tituj serif (Fraunces), jeshile pylli dhe ar.
 - 👤 **Tri role:** Biznes, Organizatë, Vullnetar (pa login të vërtetë në këtë fazë).
 - 📱 **Mobile-first:** butona të mëdhenj për duar të zëna, një veprim kryesor për ekran.
 - 📲 **Instalohet si app (PWA):** shtoje në ekranin kryesor të telefonit dhe hapet pa shiritin e shfletuesit.
