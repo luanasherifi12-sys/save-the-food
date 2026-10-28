@@ -70,6 +70,15 @@ NOT in Phase 1: notifications, profile verification, AI prediction, other cities
 ## Decisions
 - All data access goes through `src/lib/donationsStore.js`, so Supabase can replace it later
   without changing components.
+- The first page (`RoleSelectPage`) is a landing page: live hero numbers (`useCountUp`), live map on
+  computers only, "Si funksionon", live activity (`lib/activity.js` + `ActivityFeed`), footer.
+- `lib/history.js` makes a STABLE 14-day demo history (no Math.random) for the landing numbers and the
+  impact chart. Always labelled "të dhëna demo" in the UI. Replaced by real data with Supabase.
+- Feedback after actions: `showToast(message)` from `lib/toast.js`; `<Toaster />` is in App.jsx.
+- Animations are defined in `index.css` (`--animate-*`) and switched off under prefers-reduced-motion.
+  Page fade-in uses `backwards` fill so no transform stays behind (it would break sticky/fixed).
+- The map is loaded with `React.lazy` (`LazyDonationMap`); render maps only where they are visible
+  (useMediaQuery), not just hidden with CSS, or phones download Leaflet for nothing.
 - Data lives in localStorage. Other tabs refresh instantly via the `storage` event.
 - Sample data uses times **relative to now** (e.g. deadline in 45 min) so the app never looks empty.
   When fewer than 4 donations are available (published + deadline not passed), the `sample-*`

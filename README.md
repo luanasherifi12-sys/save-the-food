@@ -34,9 +34,9 @@ Teprica ekziston dhe nevoja ekziston. Mungon një **lidhje e shpejtë** mes tyre
 
 ## Pamje
 
-| Harta | Publikimi | Kodi i marrjes | Ndikimi |
-|:---:|:---:|:---:|:---:|
-| <img src="docs/screenshots/1-harta.png" width="200" alt="Harta me ushqimin afër, një pin i zgjedhur dhe kartela me numërim mbrapsht" /> | <img src="docs/screenshots/2-publiko.png" width="200" alt="Formulari i publikimit me çipa për llojin, porcionet dhe afatin" /> | <img src="docs/screenshots/3-kodi.png" width="200" alt="Donacionet e biznesit me kodin 4-shifror të marrjes" /> | <img src="docs/screenshots/4-ndikimi.png" width="200" alt="Paneli i ndikimit me porcione, kg, donacione dhe persona" /> |
+| Ballina | Harta | Publikimi | Kodi i marrjes | Ndikimi |
+|:---:|:---:|:---:|:---:|:---:|
+| <img src="docs/screenshots/0-ballina.png" width="170" alt="Ballina me titullin, numrat live dhe butonin Fillo tani" /> | <img src="docs/screenshots/1-harta.png" width="170" alt="Harta me ushqimin afër, një pin i zgjedhur dhe kartela me numërim mbrapsht" /> | <img src="docs/screenshots/2-publiko.png" width="170" alt="Formulari i publikimit me çipa për llojin, porcionet dhe afatin" /> | <img src="docs/screenshots/3-kodi.png" width="170" alt="Donacionet e biznesit me kodin 4-shifror të marrjes" /> | <img src="docs/screenshots/4-ndikimi.png" width="170" alt="Paneli i ndikimit me numrat e 14 ditëve dhe grafikun ditor" /> |
 
 ## Funksionet (Faza 1)
 
@@ -46,7 +46,13 @@ Teprica ekziston dhe nevoja ekziston. Mungon një **lidhje e shpejtë** mes tyre
 - ⏰ **Numërim mbrapsht** dhe etiketa **"Duhet marrë së shpejti"** kur mbeten më pak se 60 minuta.
 - 🔄 **Statuset:** Publikuar → Rezervuar → Marrë → Shpërndarë. Rezervimi skadon vetë pas 30 minutash.
 - 🔢 **Kod 4-shifror** për konfirmimin e marrjes.
-- 📊 **Paneli i ndikimit:** porcione të shpëtuara, kg, donacione të përfunduara dhe persona të ndihmuar.
+- 📊 **Paneli i ndikimit:** porcione, kg, donacione, persona të ndihmuar dhe CO₂ e shmangur, me grafik
+  të 14 ditëve të fundit dhe krahasim me javën e kaluar.
+- 🟢 **Ballina live:** numra që numërojnë lart, hartë live (në kompjuter) dhe "Tani në Prishtinë" –
+  çdo publikim, rezervim dhe shpërndarje shfaqet në çast.
+- 🔗 **Ndaje ushqimin** me vullnetarët (WhatsApp, Viber, SMS) dhe **"Si herën e kaluar?"** për biznesin.
+- 🌙 **Modalitet i errët** automatik, **njoftime** pas çdo veprimi dhe animacione që respektojnë "reduce motion".
+- 🖥️ **Responsive:** telefon, tablet dhe kompjuter (harta dhe lista krah për krah).
 - 👤 **Tri role:** Biznes, Organizatë, Vullnetar (pa login të vërtetë në këtë fazë).
 - 📱 **Mobile-first:** butona të mëdhenj për duar të zëna, një veprim kryesor për ekran.
 - 📲 **Instalohet si app (PWA):** shtoje në ekranin kryesor të telefonit dhe hapet pa shiritin e shfletuesit.
