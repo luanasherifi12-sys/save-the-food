@@ -1,7 +1,7 @@
 import { List, MapIcon, MapPin, Pointer, RotateCcw, X } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import DonationCard from '../components/DonationCard.jsx'
-import DonationMap from '../components/DonationMap.jsx'
+import DonationMap from '../components/LazyDonationMap.jsx' // loads the map code only when needed
 import FilterBar, { DEFAULT_FILTERS } from '../components/FilterBar.jsx'
 import InlineIcon from '../components/InlineIcon.jsx'
 import SegmentedControl from '../components/SegmentedControl.jsx'

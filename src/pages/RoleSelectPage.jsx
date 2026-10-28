@@ -1,10 +1,11 @@
 import { ArrowDown, ArrowRight, ExternalLink, Hand, HeartHandshake, KeyRound, Megaphone } from 'lucide-react'
 import { Navigate, useLocation } from 'react-router-dom'
 import ActivityFeed from '../components/ActivityFeed.jsx'
-import DonationMap from '../components/DonationMap.jsx'
+import DonationMap from '../components/LazyDonationMap.jsx' // loads the map code only when needed
 import Logo from '../components/Logo.jsx'
 import { useCountUp } from '../hooks/useCountUp.js'
 import { useDonations } from '../hooks/useDonations.js'
+import { DESKTOP_QUERY, useMediaQuery } from '../hooks/useMediaQuery.js'
 import { useNow } from '../hooks/useNow.js'
 import { ROLES } from '../lib/constants.js'
 import { HISTORY_DAYS, createDailyHistory, sumDays } from '../lib/history.js'
@@ -43,6 +44,7 @@ function RoleSelectPage({ role, onSelectRole }) {
   const location = useLocation()
   const donations = useDonations()
   const now = useNow()
+  const isDesktop = useMediaQuery(DESKTOP_QUERY)
 
   // A role is already chosen (also right after a click) -> go to that role's home screen,
   // or back to the shared donation link that brought the person here.
@@ -114,25 +116,28 @@ function RoleSelectPage({ role, onSelectRole }) {
               <p className="mt-3 text-xs text-header-soft/70">{HISTORY_DAYS} ditët e fundit · të dhëna demo</p>
             </div>
 
-            {/* Computer: the live map as the picture next to the title */}
-            <div className="relative mt-12 hidden lg:mt-0 lg:block">
-              <div className="overflow-hidden rounded-2xl shadow-2xl ring-1 ring-white/15">
-                <DonationMap
-                  donations={available}
-                  now={now}
-                  selectedId={null}
-                  onSelect={() => {}}
-                  scrollWheelZoom={false}
-                  className="h-[26rem] !rounded-none !ring-0"
-                />
+            {/* Computer only: the live map as the picture next to the title.
+                Rendered only on the computer (not just hidden with CSS), so phones never download the map code. */}
+            {isDesktop && (
+              <div className="relative">
+                <div className="overflow-hidden rounded-2xl shadow-2xl ring-1 ring-white/15">
+                  <DonationMap
+                    donations={available}
+                    now={now}
+                    selectedId={null}
+                    onSelect={() => {}}
+                    scrollWheelZoom={false}
+                    className="h-[26rem] !rounded-none !ring-0"
+                  />
+                </div>
+                <div className="absolute -bottom-5 -left-5 z-[1000] rounded-xl bg-card px-4 py-3 text-ink shadow-xl ring-1 ring-brand-100">
+                  <p className="text-xs text-ink/60">Në dispozicion tani</p>
+                  <p className="font-display text-2xl font-semibold text-brand-900 tabular-nums">
+                    {availablePortions} porcione
+                  </p>
+                </div>
               </div>
-              <div className="absolute -bottom-5 -left-5 z-[1000] rounded-xl bg-card px-4 py-3 text-ink shadow-xl ring-1 ring-brand-100">
-                <p className="text-xs text-ink/60">Në dispozicion tani</p>
-                <p className="font-display text-2xl font-semibold text-brand-900 tabular-nums">
-                  {availablePortions} porcione
-                </p>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </header>
