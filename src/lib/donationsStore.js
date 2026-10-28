@@ -98,6 +98,7 @@ export function addDonation(fields) {
     pickedUpAt: null,
     distributedAt: null,
     peopleHelped: null,
+    rating: null,
     ...fields,
   }
   saveDonations([donation, ...getDonations()])
@@ -156,6 +157,16 @@ export function markDistributed(id, peopleHelped) {
     if (donation.status !== 'picked_up') return { ok: false, reason: 'not-picked-up' }
     if (!(peopleHelped >= 1)) return { ok: false, reason: 'invalid-people' }
     return { ok: true, donation: { ...donation, status: 'distributed', distributedAt: now, peopleHelped } }
+  })
+}
+
+// After distribution, the organization/volunteer rates the business once: { stars: 1-5, tags: [...] }
+export function rateDonation(id, role, { stars, tags }) {
+  return updateDonation(id, (donation, now) => {
+    if (donation.status !== 'distributed' || donation.reservedBy !== role) return { ok: false, reason: 'cannot-rate' }
+    if (donation.rating) return { ok: false, reason: 'already-rated' }
+    if (!(stars >= 1 && stars <= 5)) return { ok: false, reason: 'invalid-rating' }
+    return { ok: true, donation: { ...donation, rating: { stars, tags, ratedAt: now } } }
   })
 }
 

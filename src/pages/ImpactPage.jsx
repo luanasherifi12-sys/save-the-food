@@ -2,6 +2,9 @@ import { CircleCheckBig, Leaf, Scale, TrendingDown, TrendingUp, Truck, Users, Ut
 import { useState } from 'react'
 import { useOutletContext } from 'react-router-dom'
 import AnimatedNumber from '../components/AnimatedNumber.jsx'
+import BadgeGrid from '../components/BadgeGrid.jsx'
+import Leaderboard from '../components/Leaderboard.jsx'
+import { Stars } from '../components/Rating.jsx'
 import DonationRow from '../components/DonationRow.jsx'
 import InlineIcon from '../components/InlineIcon.jsx'
 import SegmentedControl from '../components/SegmentedControl.jsx'
@@ -9,9 +12,12 @@ import StatTile from '../components/StatTile.jsx'
 import TrendChart from '../components/TrendChart.jsx'
 import { useDonations } from '../hooks/useDonations.js'
 import { useNow } from '../hooks/useNow.js'
+import { useProfile } from '../hooks/useProfile.js'
+import { computeBadges, ratingSummary } from '../lib/badges.js'
 import { CO2E_PER_KG_FOOD, DEMO_BUSINESS, FOOD_TYPES } from '../lib/constants.js'
 import { HISTORY_DAYS, createDailyHistory, startOfDay, sumDays } from '../lib/history.js'
 import { calculateImpact } from '../lib/impact.js'
+import { weeklyLeaderboard } from '../lib/leaderboard.js'
 import { formatClock } from '../lib/time.js'
 
 const SCOPES = [
@@ -48,6 +54,10 @@ function ImpactPage() {
 
   const selected = isCity ? donations : donations.filter((d) => isMine(d, role))
   const impact = calculateImpact(selected) // today, live
+  const profile = useProfile(role)
+  const mine = donations.filter((d) => isMine(d, role))
+  const badges = computeBadges(mine, role)
+  const rating = ratingSummary(mine)
   const maxPortions = Math.max(...impact.byFoodType.map((item) => item.portions), 1)
 
   // City: the last 14 days (demo history + today live). Mine: today only.
@@ -126,6 +136,34 @@ function ImpactPage() {
           <div className="mt-4">
             <TrendChart days={chartDays} />
           </div>
+        </div>
+      )}
+
+      {/* City: the businesses that saved the most this week */}
+      {isCity && (
+        <div className="rounded-3xl bg-card p-4 shadow-sm ring-1 ring-brand-100 lg:col-span-2 lg:p-6">
+          <h2 className="font-display text-xl font-semibold text-brand-900">Bizneset e javës</h2>
+          <p className="mb-4 text-sm text-ink/60">Porcione të shpëtuara që nga e hëna · ditët para sotit janë demo</p>
+          <Leaderboard rows={weeklyLeaderboard(donations, now)} highlightId={role === 'business' ? profile.id : null} />
+        </div>
+      )}
+
+      {/* Mine: the business's average rating, and the achievements */}
+      {!isCity && role === 'business' && rating.count > 0 && (
+        <div className="flex items-center gap-4 rounded-3xl bg-cream-50 p-4 ring-1 ring-crust-500/30 lg:col-span-2">
+          <p className="font-display text-4xl font-semibold text-brand-900">{rating.average.toLocaleString('sq-AL')}</p>
+          <div>
+            <Stars value={rating.average} size="size-5" />
+            <p className="mt-0.5 text-sm text-ink/70">
+              Vlerësimi mesatar nga organizatat · {rating.count} {rating.count === 1 ? 'vlerësim' : 'vlerësime'}
+            </p>
+          </div>
+        </div>
+      )}
+      {!isCity && (
+        <div className="rounded-3xl bg-card p-4 shadow-sm ring-1 ring-brand-100 lg:col-span-2 lg:p-6">
+          <h2 className="font-display text-xl font-semibold text-brand-900">Arritjet</h2>
+          <BadgeGrid badges={badges} />
         </div>
       )}
 

@@ -9,6 +9,7 @@ import DonationTags from '../components/DonationTags.jsx'
 import FoodIcon from '../components/FoodIcon.jsx'
 import InlineIcon from '../components/InlineIcon.jsx'
 import NumberStepper from '../components/NumberStepper.jsx'
+import { RatingForm, RatingSummary } from '../components/Rating.jsx'
 import ReservedCodeCard from '../components/ReservedCodeCard.jsx'
 import ShareDonationButton from '../components/ShareDonationButton.jsx'
 import StatusBadge from '../components/StatusBadge.jsx'
@@ -21,6 +22,7 @@ import {
   cancelReservation,
   confirmPickup,
   markDistributed,
+  rateDonation,
   reserveDonation,
 } from '../lib/donationsStore.js'
 import {
@@ -40,6 +42,9 @@ const REASON_MESSAGES = {
   'wrong-code': 'Kodi nuk është i saktë. Kërkoja biznesit sërish.',
   'not-picked-up': 'Ky donacion nuk është shënuar ende si i marrë.',
   'invalid-people': 'Shkruaj sa persona u ndihmuan.',
+  'cannot-rate': 'Vetëm kush e shpërndau ushqimin mund ta vlerësojë.',
+  'already-rated': 'Ky donacion është vlerësuar tashmë.',
+  'invalid-rating': 'Zgjidh nga 1 deri në 5 yje.',
 }
 
 const PEOPLE_PRESETS = [5, 10, 20, 50].map((n) => ({ value: n, label: String(n) }))
@@ -185,7 +190,14 @@ function DonationDetailPage() {
           />
         )}
 
-        {donation.status === 'distributed' && <DistributedSummary donation={donation} celebrate={celebrate} />}
+        {donation.status === 'distributed' && (
+          <DistributedSummary
+            donation={donation}
+            celebrate={celebrate}
+            canRate={isMine && isCollector}
+            onRate={(rating) => handleResult(rateDonation(donation.id, role, rating), 'Faleminderit për vlerësimin!')}
+          />
+        )}
       </div>
     </section>
   )
@@ -322,7 +334,8 @@ function PickedUpActions({ donation, isMine, onDistribute }) {
 
 // Status 4: Distributed -> summary
 // `celebrate`: the person just marked it distributed -> the check mark pops in with confetti.
-function DistributedSummary({ donation, celebrate }) {
+// canRate: the organization/volunteer who distributed it can rate the business once.
+function DistributedSummary({ donation, celebrate, canRate, onRate }) {
   return (
     <Panel>
       <div className="flex flex-col items-center gap-2 py-2 text-center">
@@ -342,6 +355,12 @@ function DistributedSummary({ donation, celebrate }) {
           {donation.kg.toLocaleString('sq-AL')} kg ushqim i shpëtuar
         </p>
       </div>
+
+      {donation.rating ? (
+        <RatingSummary rating={donation.rating} title={canRate ? 'Vlerësimi yt' : 'Vlerësimi'} />
+      ) : (
+        canRate && <RatingForm businessName={donation.businessName} onSubmit={onRate} />
+      )}
     </Panel>
   )
 }

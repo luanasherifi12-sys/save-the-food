@@ -11,6 +11,7 @@ function makeDonation(fields) {
     pickedUpAt: null,
     distributedAt: null,
     peopleHelped: null,
+    rating: null,
     ...fields,
     kg: estimateKg(fields.foodType, fields.portions),
   }
@@ -244,6 +245,7 @@ export function createSampleDonations(now) {
       pickedUpAt: minutesFromNow(-250),
       distributedAt: minutesFromNow(-200),
       peopleHelped: 18,
+      rating: { stars: 5, tags: ['Ushqim i freskët', 'Marrje e shpejtë'], ratedAt: minutesFromNow(-195) },
       pickupCode: '7243',
     }),
     makeDonation({
@@ -265,6 +267,7 @@ export function createSampleDonations(now) {
       pickedUpAt: minutesFromNow(-310),
       distributedAt: minutesFromNow(-270),
       peopleHelped: 12,
+      rating: { stars: 4, tags: ['Paketim i mirë'], ratedAt: minutesFromNow(-265) },
       pickupCode: '1905',
     }),
   ]

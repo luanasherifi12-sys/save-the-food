@@ -1,6 +1,7 @@
 import { CircleCheck, Clock, Store, Users } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import DonationRow from '../components/DonationRow.jsx'
+import { Stars } from '../components/Rating.jsx'
 import InlineIcon from '../components/InlineIcon.jsx'
 import ReservedCodeCard from '../components/ReservedCodeCard.jsx'
 import UrgentBadge from '../components/UrgentBadge.jsx'
@@ -147,6 +148,12 @@ function GroupItem({ groupKey, donation, now }) {
           <p className="text-sm text-brand-700">
             <InlineIcon Icon={Users} />{donation.peopleHelped} persona u ndihmuan
           </p>
+          {donation.rating && (
+            <p className="mt-1 flex items-center gap-1.5 text-xs text-ink/60">
+              <Stars value={donation.rating.stars} size="size-3.5" />
+              {donation.rating.tags[0]}
+            </p>
+          )}
         </DonationRow>
       )
 

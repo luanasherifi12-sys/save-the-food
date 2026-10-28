@@ -95,6 +95,9 @@ export const STORAGE_TYPES = {
 }
 
 // "none" is a real choice: the business must always answer the allergen question.
+// Quick tags an organization/volunteer can add to a rating of the business
+export const RATING_TAGS = ['Ushqim i freskët', 'Paketim i mirë', 'Marrje e shpejtë', 'Staf i sjellshëm']
+
 export const ALLERGENS = {
   none: 'Asnjë',
   gluten: 'Gluten',
