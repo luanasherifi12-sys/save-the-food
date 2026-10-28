@@ -70,7 +70,7 @@ function AppLayout({ role, onChangeRole }) {
         {/* Pages read the role with useOutletContext() */}
         {/* key: a new page gets a fresh wrapper, so it fades in (animate-page-in) */}
         <div key={location.pathname} className="animate-page-in">
-          <Outlet context={{ role }} />
+          <Outlet context={{ role, onChangeRole }} />
         </div>
       </main>
 

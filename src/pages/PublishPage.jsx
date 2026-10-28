@@ -8,6 +8,7 @@ import FoodIcon from '../components/FoodIcon.jsx'
 import InlineIcon from '../components/InlineIcon.jsx'
 import NumberStepper from '../components/NumberStepper.jsx'
 import { useDonations } from '../hooks/useDonations.js'
+import { useProfile } from '../hooks/useProfile.js'
 import {
   ALLERGENS,
   DEMO_BUSINESS,
@@ -111,6 +112,7 @@ function PublishPage() {
   const [startedAt, setStartedAt] = useState(() => Date.now())
   const [published, setPublished] = useState(null) // { donation, seconds } after publishing
   const lastDonation = findLastDonation(useDonations())
+  const business = useProfile('business') // name and location come from Profili
 
   // Copies the form object and changes one field. React needs a NEW object to notice the change.
   function updateField(name, value) {
@@ -144,11 +146,11 @@ function PublishPage() {
     if (missing.length > 0) return
 
     const donation = addDonation({
-      businessId: DEMO_BUSINESS.id,
-      businessName: DEMO_BUSINESS.name,
-      address: DEMO_BUSINESS.address,
-      lat: DEMO_BUSINESS.lat,
-      lng: DEMO_BUSINESS.lng,
+      businessId: business.id,
+      businessName: business.name,
+      address: business.address,
+      lat: business.lat,
+      lng: business.lng,
       foodType: form.foodType,
       portions: form.portions,
       kg,
@@ -177,7 +179,7 @@ function PublishPage() {
         <h1 className="font-display text-2xl font-semibold text-brand-900">Publiko ushqimin</h1>
         <p className="mt-1 text-sm text-ink/70">
           <InlineIcon Icon={Store} />
-          {DEMO_BUSINESS.name} · {DEMO_BUSINESS.address}
+          {business.name} · {business.address}
         </p>
       </div>
 

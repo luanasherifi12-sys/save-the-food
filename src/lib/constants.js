@@ -14,6 +14,7 @@ import {
   Soup,
   Store,
   Thermometer,
+  UserRound,
   Wheat,
 } from 'lucide-react'
 
@@ -53,6 +54,7 @@ const COLLECTOR_NAV = [
   { to: '/browse', label: 'Ushqimi', Icon: MapIcon },
   { to: '/pickups', label: 'Marrjet', Icon: ShoppingBag },
   { to: '/impact', label: 'Ndikimi', Icon: ChartColumn },
+  { to: '/profile', label: 'Profili', Icon: UserRound },
 ]
 
 // Bottom navigation items for each role.
@@ -61,6 +63,7 @@ export const NAV_ITEMS = {
     { to: '/publish', label: 'Publiko', Icon: CirclePlus },
     { to: '/my-donations', label: 'Donacionet', Icon: Package },
     { to: '/impact', label: 'Ndikimi', Icon: ChartColumn },
+    { to: '/profile', label: 'Profili', Icon: UserRound },
   ],
   organization: COLLECTOR_NAV,
   volunteer: COLLECTOR_NAV,

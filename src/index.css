@@ -129,8 +129,10 @@
   background tokens (surface, card, brand-50/100, cream, urgent-50) become dark.
   The header keeps its dark green, so its text stays white.
 */
+/* Dark colors: used when the phone/computer is in dark mode (and the person did not pick "E çelët"),
+   or when the person picked "E errët" in Profili (data-theme="dark" on <html>, see lib/profileStore.js). */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme='light']) {
     --color-brand-900: #eee3cc; /* headings: warm cream */
     --color-brand-700: #4a8a60; /* buttons + links: a green that reads on dark and carries white text */
     --color-brand-500: #7fb48e;
@@ -157,9 +159,42 @@
   }
 
   /* The map tiles are bright; dim them a little so they don't glare at night. */
-  .leaflet-tile-pane {
+  :root:not([data-theme='light']) .leaflet-tile-pane {
     filter: brightness(0.75) contrast(1.1);
   }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+    --color-brand-900: #eee3cc; /* headings: warm cream */
+    --color-brand-700: #4a8a60; /* buttons + links: a green that reads on dark and carries white text */
+    --color-brand-500: #7fb48e;
+    --color-brand-100: #3a342b; /* warm borders */
+    --color-brand-50: #26221c; /* tinted backgrounds */
+
+    --color-cream-50: #2b241a;
+    --color-cream-100: #3c3224;
+    --color-crust-500: #d4a465;
+    --color-crust-700: #e7c18e;
+
+    --color-urgent-50: #3a2419;
+    --color-urgent-500: #e07a45;
+    --color-urgent-700: #f2a77c;
+
+    --color-ink: #ece4d6;
+    --color-surface: #13110e; /* warm dark, not blue-black */
+    --color-card: #1d1a15;
+    --color-header: #0f2419;
+
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
+    --shadow-md: 0 8px 24px -8px rgb(0 0 0 / 0.5);
+    --shadow-lg: 0 16px 40px -12px rgb(0 0 0 / 0.6);
+}
+:root[data-theme='dark'] .leaflet-tile-pane {
+  filter: brightness(0.75) contrast(1.1);
+}
+:root[data-theme='light'] {
+  color-scheme: light;
 }
 
 /* Serif headings: a touch tighter, and Fraunces' "soft" style for a warmer look. */

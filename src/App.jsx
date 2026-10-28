@@ -10,6 +10,7 @@ import BrowsePage from './pages/BrowsePage.jsx'
 import DonationDetailPage from './pages/DonationDetailPage.jsx'
 import ImpactPage from './pages/ImpactPage.jsx'
 import PickupsPage from './pages/PickupsPage.jsx'
+import ProfilePage from './pages/ProfilePage.jsx'
 
 // Returns the saved role, or null if nothing (or something invalid) is saved.
 function loadSavedRole() {
@@ -52,6 +53,7 @@ function AppRoutes({ role, changeRole }) {
         <Route path="/donations/:id" element={<DonationDetailPage />} />
         <Route path="/pickups" element={<PickupsPage />} />
         <Route path="/impact" element={<ImpactPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Route>
 
       {/* Unknown address -> back to the start */}

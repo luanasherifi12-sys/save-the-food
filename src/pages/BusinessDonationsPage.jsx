@@ -6,6 +6,7 @@ import ReservedCodeCard from '../components/ReservedCodeCard.jsx'
 import UrgentBadge from '../components/UrgentBadge.jsx'
 import { useDonations } from '../hooks/useDonations.js'
 import { useNow } from '../hooks/useNow.js'
+import { useProfile } from '../hooks/useProfile.js'
 import { DEMO_BUSINESS } from '../lib/constants.js'
 import {
   formatClock,
@@ -53,6 +54,7 @@ const GROUPS = [
 
 function BusinessDonationsPage() {
   const donations = useDonations()
+  const business = useProfile('business')
   const now = useNow()
 
   // Only this business's donations, with the 30-minute rule applied on screen.
@@ -71,7 +73,7 @@ function BusinessDonationsPage() {
         <h1 className="font-display text-2xl font-semibold text-brand-900">Donacionet e mia</h1>
         <p className="mt-1 text-sm text-ink/70">
           <InlineIcon Icon={Store} />
-          {DEMO_BUSINESS.name} · {mine.length} {mine.length === 1 ? 'donacion' : 'donacione'}
+          {business.name} · {mine.length} {mine.length === 1 ? 'donacion' : 'donacione'}
         </p>
       </div>
 
