@@ -1,6 +1,7 @@
 import { Navigate, NavLink, Outlet, useLocation } from 'react-router-dom'
 import { ChevronDown } from 'lucide-react'
 import Logo from './Logo.jsx'
+import NotificationBell from './NotificationBell.jsx'
 import { NAV_ITEMS, ROLES } from '../lib/constants.js'
 
 // Shared frame for every screen after role selection:
@@ -51,18 +52,22 @@ function AppLayout({ role, onChangeRole }) {
           </ul>
         </nav>
 
-        {/* Short on phones (icon + role); "· Ndrysho" appears from 640px. aria-label gives the full meaning. */}
-        <button
-          type="button"
-          onClick={onChangeRole}
-          aria-label={`Ndrysho rolin (tani: ${currentRole.label})`}
-          className="flex min-h-11 shrink-0 items-center gap-1.5 rounded-full bg-white/10 px-3 text-sm font-medium whitespace-nowrap hover:bg-white/20"
-        >
-          <currentRole.Icon className="size-4" />
-          {currentRole.label}
-          <span className="hidden sm:inline">· Ndrysho</span>
-          <ChevronDown className="size-4 opacity-70 sm:hidden" />
-        </button>
+        <div className="flex shrink-0 items-center gap-2">
+          <NotificationBell role={role} />
+
+          {/* Phones: only the role icon (the role can also be changed in Profili). From 640px: "Biznes · Ndrysho".
+              aria-label gives the full meaning to screen readers. */}
+          <button
+            type="button"
+            onClick={onChangeRole}
+            aria-label={`Ndrysho rolin (tani: ${currentRole.label})`}
+            className="flex min-h-11 items-center gap-1.5 rounded-full bg-white/10 px-3 text-sm font-medium whitespace-nowrap hover:bg-white/20"
+          >
+            <currentRole.Icon className="size-4" />
+            <span className="hidden sm:inline">{currentRole.label} · Ndrysho</span>
+            <ChevronDown className="size-4 opacity-70 sm:hidden" />
+          </button>
+        </div>
       </header>
 
       {/* pb-24 leaves room so the fixed bottom nav does not cover the content */}
