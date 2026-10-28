@@ -1,4 +1,5 @@
 import { Navigate, NavLink, Outlet, useLocation } from 'react-router-dom'
+import Logo from './Logo.jsx'
 import { NAV_ITEMS, ROLES } from '../lib/constants.js'
 
 // Shared frame for every screen after role selection:
@@ -23,7 +24,10 @@ function AppLayout({ role, onChangeRole }) {
           On tablet/computer the header is full width; the side padding lines its content up
           with the page content: (screen width − content width) / 2 */}
       <header className="flex items-center justify-between gap-4 bg-header px-4 pt-[max(0.75rem,env(safe-area-inset-top))] pb-3 text-white md:px-[max(1rem,calc((100%-48rem)/2+1rem))] lg:px-[max(1rem,calc((100%-1200px)/2+1rem))]">
-        <span className="font-display text-lg font-semibold">Save the Food</span>
+        <span className="flex items-center gap-2 font-display text-lg font-semibold">
+          <Logo className="size-7" onDark />
+          Save the Food
+        </span>
 
         {/* Computer: navigation lives in the header */}
         <nav className="hidden lg:block" aria-label="Menuja kryesore">

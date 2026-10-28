@@ -24,6 +24,17 @@ export function formatCountdown(msLeft) {
   return `${minutes} min ${pad(seconds)} s`
 }
 
+// "tani", "para 5 min", "para 1 ore", "para 3 orësh", or the clock time for older events.
+export function formatTimeAgo(timestamp, now) {
+  const minutes = Math.floor((now - timestamp) / MINUTE)
+  if (minutes < 1) return 'tani'
+  if (minutes < 60) return `para ${minutes} min`
+  const hours = Math.floor(minutes / 60)
+  if (hours === 1) return 'para 1 ore'
+  if (hours < 12) return `para ${hours} orësh`
+  return formatClock(timestamp)
+}
+
 // A donation can still be reserved: it is published and its pickup deadline has not passed.
 export function isAvailable(donation, now) {
   return donation.status === 'published' && donation.pickupDeadline > now

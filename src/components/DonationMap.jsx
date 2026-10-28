@@ -140,12 +140,14 @@ function DonationMap({
   onSelect,
   userPosition,
   panelCoversBottom = true,
+  scrollWheelZoom = true, // false on pages where scrolling the page should not zoom the map
   className = '',
 }) {
   return (
     <MapContainer
       center={[PRISHTINA_CENTER.lat, PRISHTINA_CENTER.lng]}
       zoom={13}
+      scrollWheelZoom={scrollWheelZoom}
       className={`w-full rounded-3xl ring-1 ring-brand-100 ${className}`}
     >
       <TileLayer
